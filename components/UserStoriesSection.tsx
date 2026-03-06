@@ -45,10 +45,10 @@ const FlipCard = ({ story, index }: { story: any, index: number }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="relative h-[420px] w-full perspective-1000 group cursor-pointer"
+      className="relative h-[480px] w-full perspective-1000 group cursor-pointer"
       onMouseEnter={() => setIsFlipped(true)}
       onMouseLeave={() => setIsFlipped(false)}
       onClick={() => setIsFlipped(!isFlipped)}
@@ -56,18 +56,18 @@ const FlipCard = ({ story, index }: { story: any, index: number }) => {
       <motion.div
         initial={false}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ 
-          type: "spring", 
-          stiffness: 260, 
+        transition={{
+          type: "spring",
+          stiffness: 260,
           damping: 20,
-          mass: 1 
+          mass: 1
         }}
         style={{ transformStyle: "preserve-3d" }}
         className="relative h-full w-full"
       >
         {/* Front Side */}
-        <div 
-          className="absolute inset-0 backface-hidden p-10 rounded-[2.5rem] bg-white border border-black/5 flex flex-col h-full shadow-[0_20px_50px_rgba(0,0,0,0.02)] transition-shadow duration-300 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)]"
+        <div
+          className="absolute inset-0 backface-hidden p-10 rounded-[2.5rem] bg-white border border-black/5 flex flex-col h-full shadow-[0_20px_50px_rgba(0,0,0,0.02)] transition-shadow duration-300 group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.08)] overflow-hidden"
           style={{ backfaceVisibility: "hidden" }}
         >
           <div className="mb-6">
@@ -78,21 +78,21 @@ const FlipCard = ({ story, index }: { story: any, index: number }) => {
             <h3 className="text-2xl font-bold text-brand-text mb-4 leading-tight tracking-tight">{story.title}</h3>
             <p className="text-gray-500 text-base leading-relaxed mb-6 font-medium">{story.content}</p>
           </div>
-          <div className="mt-auto pt-8 border-t border-black/5">
-            <span className="text-[11px] font-bold text-[#ff751f] uppercase tracking-widest">{story.author}</span>
-            <div className="mt-1 text-[9px] text-gray-400 font-bold uppercase tracking-widest">{story.footerText || "Hover to see result"}</div>
+          <div className="mt-auto pt-6 border-t border-black/5">
+            <span className="text-[11px] font-bold text-[#ff751f] uppercase tracking-widest leading-tight block mb-1">{story.author}</span>
+            <div className="text-[9px] text-gray-400 font-bold uppercase tracking-widest">{story.footerText || "Hover to see result"}</div>
           </div>
         </div>
 
         {/* Back Side */}
-        <div 
+        <div
           className="absolute inset-0 backface-hidden p-10 rounded-[2.5rem] bg-white flex flex-col items-center justify-center h-full shadow-2xl border-2 border-brand-orange/20"
-          style={{ 
-            backfaceVisibility: "hidden", 
-            transform: "rotateY(180deg)" 
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)"
           }}
         >
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={isFlipped ? { scale: 1, opacity: 1 } : {}}
             transition={{ delay: 0.2, type: "spring", stiffness: 200, damping: 20 }}
@@ -105,7 +105,7 @@ const FlipCard = ({ story, index }: { story: any, index: number }) => {
             <div className="bg-[#ff751f] text-white px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-10 shadow-md shadow-brand-orange/20">
               {story.metric}
             </div>
-            <button 
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
@@ -126,7 +126,7 @@ export const UserStoriesSection: React.FC = () => {
     <section className="pt-16 md:pt-24 pb-16 md:pb-24 bg-brand-bg relative overflow-hidden px-6 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-24">
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -135,17 +135,17 @@ export const UserStoriesSection: React.FC = () => {
           >
             Workflow Transformations
           </motion.span>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
             className="text-4xl md:text-6xl font-medium mb-8 text-brand-text leading-tight tracking-tight"
           >
-            See how freelancers are ditching <br className="hidden lg:block"/>
+            See how freelancers are ditching <br className="hidden lg:block" />
             the chaos for <span className="text-[#ff751f]">Kinetic clarity.</span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -170,7 +170,7 @@ export const UserStoriesSection: React.FC = () => {
           ))}
         </div>
       </div>
-      
+
       <style>{`
         .perspective-1000 {
           perspective: 1000px;

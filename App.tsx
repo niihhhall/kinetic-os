@@ -3,18 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 // Shadow motion to bypass environment-specific type errors with framer-motion props
 import { motion as motionBase, AnimatePresence } from 'framer-motion';
 const motion = motionBase as any;
-import { 
-  Menu, 
-  X, 
-  Play, 
-  AlertCircle, 
-  BarChart3, 
-  Eye, 
-  Sparkles, 
-  Layout, 
-  Scale, 
-  Users, 
-  DollarSign, 
+import {
+  Menu,
+  X,
+  Play,
+  AlertCircle,
+  BarChart3,
+  Eye,
+  Sparkles,
+  Layout,
+  Scale,
+  Users,
+  DollarSign,
   HelpCircle,
   List,
   Star,
@@ -30,29 +30,28 @@ import { SolutionSection } from './components/SolutionSection';
 import { Comparison } from './components/Comparison';
 import { PricingSection } from './components/PricingSection';
 import { PostPurchaseSection } from './components/PostPurchaseSection';
-import { TestimonialsSection } from './components/TestimonialsSection'; 
+import { TestimonialsSection } from './components/TestimonialsSection';
 import { Footer } from './components/Footer';
 import { StickyCTA } from './components/StickyCTA';
 import { ProblemSolutionComparison } from './components/ProblemSolutionComparison';
 import { VisualProblemSolution } from './components/VisualProblemSolution';
-import { AsteriskSnowBackground } from './components/AsteriskSnowBackground';
 import { FAQSection } from './components/FAQSection';
 import { FeatureTickerSection } from './components/FeatureTickerSection';
 import { ClientAchievementSection } from './components/ClientAchievementSection';
 import { ComparisonMatrixSection } from './components/ComparisonMatrixSection';
 
 const AsteriskLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
-  <motion.svg 
-    viewBox="0 0 100 100" 
-    fill="currentColor" 
-    xmlns="http://www.w3.org/2000/svg" 
+  <motion.svg
+    viewBox="0 0 100 100"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
     className={className}
     animate={{ rotate: [0, 360, 360, 0, 0] }}
-    transition={{ 
-      duration: 5, 
-      repeat: Infinity, 
+    transition={{
+      duration: 5,
+      repeat: Infinity,
       times: [0, 0.1, 0.5, 0.6, 1],
-      ease: "easeInOut" 
+      ease: "easeInOut"
     }}
   >
     <rect x="41" y="10" width="18" height="80" rx="4" />
@@ -83,7 +82,7 @@ function App() {
   const [isPastHero, setIsPastHero] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
-  
+
   // Store Lenis instance in a ref to use it for programmatic scrolling
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -92,14 +91,11 @@ function App() {
     const lenis = new Lenis({
       duration: 1.5, // Increased from 1.2 for more "weight"
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1.0,
-      smoothTouch: true,
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
       touchMultiplier: 2.0, // More responsive touch
     });
-    
+
     lenisRef.current = lenis;
 
     let rafId: number;
@@ -124,16 +120,16 @@ function App() {
       // Threshold set to roughly the end of the hero section
       const heroHeight = window.innerHeight;
       const scrollY = window.scrollY;
-      
+
       // Sync side nav visibility with StickyCTA (appears after 600px scroll)
       setShowSideNav(scrollY > 600);
-      
+
       // Footer Collision Logic
       const footer = document.querySelector('footer');
       if (footer) {
         const footerRect = footer.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        
+
         // If the top of the footer is above the bottom of the viewport
         if (footerRect.top < windowHeight) {
           // Move up
@@ -152,9 +148,9 @@ function App() {
       // Scroll Spy Logic - Enhanced for better accuracy
       // Use a center-screen trigger point for better "active" detection during scroll
       const triggerPoint = window.innerHeight * 0.3;
-      
+
       let currentSectionId = '';
-      
+
       // Iterate backwards to find the last section that has passed the trigger point
       // This is often more reliable for stacked sections
       for (const item of NAV_ITEMS) {
@@ -168,7 +164,7 @@ function App() {
           }
         }
       }
-      
+
       if (currentSectionId) {
         setActiveSection(currentSectionId);
       }
@@ -182,7 +178,7 @@ function App() {
 
   const scrollToSection = (id: string) => {
     setIsMobileMenuOpen(false);
-    
+
     const element = document.getElementById(id);
     if (element) {
       if (lenisRef.current) {
@@ -208,9 +204,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-orange/20 selection:text-brand-orange relative">
-      
-      {/* Dynamic Background Effect */}
-      <AsteriskSnowBackground />
 
       {/* Mobile Menu Bottom Sheet - UPDATED UI */}
       <AnimatePresence>
@@ -224,7 +217,7 @@ function App() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="fixed inset-0 z-[60] bg-black/20 backdrop-blur-[4px] transition-all duration-300"
             />
-            
+
             {/* Sheet */}
             <motion.div
               initial={{ y: "100%" }}
@@ -244,8 +237,8 @@ function App() {
                   <AsteriskLogo className="w-5 h-5 text-[#ff751f]" />
                   Menu
                 </span>
-                <button 
-                  onClick={() => setIsMobileMenuOpen(false)} 
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2 bg-gray-100 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
                 >
                   <X className="w-5 h-5" />
@@ -254,26 +247,26 @@ function App() {
 
               {/* Scrollable List */}
               <div className="flex-1 overflow-y-auto px-6 py-4 pb-24 scrollbar-hide">
-                 <div className="grid gap-2.5">
-                    {NAV_ITEMS.map((item, idx) => (
-                      <motion.button
-                        key={item.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.03 }}
-                        onClick={() => scrollToSection(item.id)}
-                        className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-black/5 hover:border-[#ff751f]/30 active:scale-[0.98] transition-all group shadow-sm hover:shadow-md"
-                      >
-                         <div className="w-10 h-10 rounded-full bg-gray-50 group-hover:bg-[#ff751f]/10 flex items-center justify-center text-gray-400 group-hover:text-[#ff751f] transition-colors shrink-0">
-                            <item.icon className="w-5 h-5" />
-                         </div>
-                         <span className="text-base font-medium text-gray-600 group-hover:text-brand-text flex-1 text-left">{item.label}</span>
-                         <div className="text-gray-300 group-hover:text-[#ff751f] group-hover:translate-x-1 transition-all">
-                            <ChevronRight className="w-5 h-5" /> 
-                         </div>
-                      </motion.button>
-                    ))}
-                 </div>
+                <div className="grid gap-2.5">
+                  {NAV_ITEMS.map((item, idx) => (
+                    <motion.button
+                      key={item.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.03 }}
+                      onClick={() => scrollToSection(item.id)}
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-black/5 hover:border-[#ff751f]/30 active:scale-[0.98] transition-all group shadow-sm hover:shadow-md"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-gray-50 group-hover:bg-[#ff751f]/10 flex items-center justify-center text-gray-400 group-hover:text-[#ff751f] transition-colors shrink-0">
+                        <item.icon className="w-5 h-5" />
+                      </div>
+                      <span className="text-base font-medium text-gray-600 group-hover:text-brand-text flex-1 text-left">{item.label}</span>
+                      <div className="text-gray-300 group-hover:text-[#ff751f] group-hover:translate-x-1 transition-all">
+                        <ChevronRight className="w-5 h-5" />
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </>
@@ -284,7 +277,7 @@ function App() {
       <AnimatePresence>
         {showNav && (
           <div className="fixed top-6 md:top-8 left-0 right-0 z-50 flex justify-center px-4 md:px-8 pointer-events-none">
-            <motion.nav 
+            <motion.nav
               initial={{ y: -40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -40, opacity: 0 }}
@@ -293,9 +286,9 @@ function App() {
               className={`glass-nav rounded-full flex items-center transition-all duration-500 pointer-events-auto ${isPastHero ? 'px-6 py-3 w-auto md:w-auto' : 'pl-6 pr-2 py-2 md:pl-6 md:pr-1.5 md:py-1.5'}`}
             >
               <div className="flex items-center gap-6 md:gap-0 w-full justify-center md:justify-between">
-                
+
                 {/* Brand Logo Section */}
-                <div 
+                <div
                   className="flex items-center gap-2.5 cursor-pointer group shrink-0"
                   onClick={scrollToTop}
                 >
@@ -305,38 +298,38 @@ function App() {
 
                 {/* Right Side Actions - Hidden completely on mobile to maintain center alignment of logo */}
                 <div className="hidden md:flex items-center gap-3">
-                    {/* Brand Orange CTA Button - Disappears after Hero on Desktop */}
-                    <AnimatePresence>
-                      {!isPastHero && (
-                        <motion.div
-                          initial={{ opacity: 0, width: 0, x: 20, marginLeft: 0 }}
-                          animate={{ 
-                            opacity: 1, 
-                            width: 'auto', 
-                            x: 0,
-                            marginLeft: '2rem', // Equivalent to md:gap-8 (32px)
-                            transition: { type: "spring", stiffness: 300, damping: 30 }
-                          }}
-                          exit={{ 
-                            opacity: 0, 
-                            width: 0, 
-                            x: 20, 
-                            marginLeft: 0, // Collapse spacing completely
-                            transition: { duration: 0.3, ease: "easeInOut" } 
-                          }}
-                          className="flex overflow-hidden"
+                  {/* Brand Orange CTA Button - Disappears after Hero on Desktop */}
+                  <AnimatePresence>
+                    {!isPastHero && (
+                      <motion.div
+                        initial={{ opacity: 0, width: 0, x: 20, marginLeft: 0 }}
+                        animate={{
+                          opacity: 1,
+                          width: 'auto',
+                          x: 0,
+                          marginLeft: '2rem', // Equivalent to md:gap-8 (32px)
+                          transition: { type: "spring", stiffness: 300, damping: 30 }
+                        }}
+                        exit={{
+                          opacity: 0,
+                          width: 0,
+                          x: 20,
+                          marginLeft: 0, // Collapse spacing completely
+                          transition: { duration: 0.3, ease: "easeInOut" }
+                        }}
+                        className="flex overflow-hidden"
+                      >
+                        <button
+                          onClick={() => scrollToSection('pricing')}
+                          className="flex items-center justify-center bg-[#ff751f] text-white px-6 py-2.5 rounded-full hover:bg-[#e6641a] transition-all active:scale-95 shadow-sm whitespace-nowrap"
                         >
-                          <button 
-                            onClick={() => scrollToSection('pricing')}
-                            className="flex items-center justify-center bg-[#ff751f] text-white px-6 py-2.5 rounded-full hover:bg-[#e6641a] transition-all active:scale-95 shadow-sm whitespace-nowrap"
-                          >
-                            <span className="text-[13px] font-bold tracking-tight">
-                              Get Early Access
-                            </span>
-                          </button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                          <span className="text-[13px] font-bold tracking-tight">
+                            Get Early Access
+                          </span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
               </div>
@@ -348,7 +341,7 @@ function App() {
       {/* Floating TOC Trigger & Menu (Desktop) - REFINED INTERACTION */}
       <AnimatePresence>
         {showSideNav && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
@@ -383,10 +376,10 @@ function App() {
                           <item.icon className={`w-3.5 h-3.5 transition-colors ${isActive ? 'text-[#ff751f]' : 'text-gray-400 group-hover:text-gray-600'}`} />
                           <span className="text-[13px] tracking-tight">{item.label}</span>
                           {isActive && (
-                            <motion.div 
-                              layoutId="activeDot" 
+                            <motion.div
+                              layoutId="activeDot"
                               className="absolute right-3 w-1.5 h-1.5 rounded-full bg-[#ff751f]"
-                              transition={{ type: "spring", stiffness: 300, damping: 30 }} 
+                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
                             />
                           )}
                         </button>
@@ -418,7 +411,7 @@ function App() {
 
       <main className="relative z-10">
         <Hero onReady={() => setShowNav(true)} />
-        
+
         <AnimatePresence>
           {showNav && (
             <motion.div
@@ -433,7 +426,7 @@ function App() {
 
         {/* Video Tour (Preview) */}
         <div id="video-tour" className="scroll-mt-40">
-            <VideoSection />
+          <VideoSection />
         </div>
 
         {/* User Reviews */}
@@ -460,12 +453,12 @@ function App() {
         <div id="user-stories" className="scroll-mt-40">
           <UserStoriesSection />
         </div>
-        
+
         {/* Solution Section */}
         <div id="solution" className="scroll-mt-40">
           <SolutionSection />
         </div>
-        
+
         {/* Market Comparison */}
         <div id="comparison-matrix" className="scroll-mt-40">
           <ComparisonMatrixSection />
@@ -491,7 +484,7 @@ function App() {
 
         <Footer />
       </main>
-      
+
       <StickyCTA onToggleMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
     </div>
   );

@@ -1,0 +1,1 @@
+﻿App.tsx(95,7): error TS2353: Object literal may only specify known properties, and 'direction' does not exist in type 'LenisOptions'.

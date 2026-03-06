@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import { Resend } from 'resend';
 
 dotenv.config();
 
@@ -13,6 +14,13 @@ const port = process.env.PORT || 4242;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
   apiVersion: '2023-10-16',
 });
+
+// Initialize Resend (conditionally if key exists to prevent crash on startup)
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
+if (!resend) {
+  console.warn('⚠️ RESEND_API_KEY is not set. Email notifications will be disabled.');
+}
 
 // Middleware
 app.use(cors());
@@ -38,12 +46,30 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
   // Handle the event
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    
+
     // Fulfill the purchase...
     console.log('✅ Payment successful for session:', session.id);
     console.log('📧 Sending email to:', session.customer_details?.email);
-    
-    // TODO: Integrate email service (Resend/SendGrid) here to send the Notion template link
+
+    // Integrate email service (Resend) here to send the Notion template link
+    try {
+      if (session.customer_details?.email) {
+        if (resend) {
+          await resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: session.customer_details.email,
+            subject: 'Your KineticOS Notion Template',
+            html: `<p>Thank you for your purchase! Welcome to KineticOS.</p>
+                   <p>Here is your <a href="https://notion.so/">Notion template link</a>. Please duplicate it to your workspace.</p>`
+          });
+          console.log('✅ Email sent successfully via Resend');
+        } else {
+          console.log('⚠️ Email skipped because RESEND_API_KEY is not configured.');
+        }
+      }
+    } catch (emailErr) {
+      console.error('❌ Email sending failed:', emailErr);
+    }
   }
 
   res.send();

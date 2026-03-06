@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 // Shadow motion to bypass environment-specific type errors with framer-motion props
 import { motion as motionBase, AnimatePresence } from 'framer-motion';
 const motion = motionBase as any;
-import { ChevronDown, HelpCircle, ArrowRight, Clock, Check, X } from 'lucide-react';
+import { ChevronDown, HelpCircle, ArrowRight, Clock, Check, X, MessageSquare } from 'lucide-react';
+import { SupportFormModal } from './SupportFormModal';
 
 const FAQS = [
   {
@@ -25,26 +26,26 @@ const FAQS = [
             </div>
           </div>
           <div className="flex items-start gap-3">
-             <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0 mt-0.5">
+            <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center shrink-0 mt-0.5">
               <Check className="w-3.5 h-3.5 text-green-600 stroke-[3px]" />
             </div>
             <div>
-               <span className="font-bold text-gray-900 block mb-1">System Seekers</span>
-               <span className="text-sm text-gray-500">Those losing 10-15 hours weekly to admin chaos and ready to commit to ONE integrated system.</span>
+              <span className="font-bold text-gray-900 block mb-1">System Seekers</span>
+              <span className="text-sm text-gray-500">Those losing 10-15 hours weekly to admin chaos and ready to commit to ONE integrated system.</span>
             </div>
           </div>
         </div>
-  
+
         <div className="p-5 rounded-xl bg-gray-50 border border-gray-100 flex gap-4">
-           <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center shrink-0 mt-0.5">
-              <X className="w-3.5 h-3.5 text-gray-500 stroke-[3px]" />
-           </div>
-           <div>
-              <span className="font-bold text-gray-900 block mb-1 text-xs uppercase tracking-wider">Not Designed For</span>
-              <p className="text-sm text-gray-500 leading-relaxed">
-                Brand new freelancers (0-2 clients) or large agencies (10+ people) needing enterprise ERP solutions.
-              </p>
-           </div>
+          <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center shrink-0 mt-0.5">
+            <X className="w-3.5 h-3.5 text-gray-500 stroke-[3px]" />
+          </div>
+          <div>
+            <span className="font-bold text-gray-900 block mb-1 text-xs uppercase tracking-wider">Not Designed For</span>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              Brand new freelancers (0-2 clients) or large agencies (10+ people) needing enterprise ERP solutions.
+            </p>
+          </div>
         </div>
       </div>
     )
@@ -57,103 +58,103 @@ const FAQS = [
     question: "How long does setup take?",
     answer: (
       <div className="flex flex-col gap-8">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100"
         >
-           <div className="w-12 h-12 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-[#ff751f] shadow-sm shrink-0">
-             <span className="font-bold text-xl">42m</span>
-           </div>
-           <div>
-             <div className="font-bold text-gray-900 text-sm">Average Setup Time</div>
-             <div className="text-xs text-gray-500 leading-snug">From purchase to fully operational. If you're not live in 60m, we extend support for free.</div>
-           </div>
+          <div className="w-12 h-12 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-[#ff751f] shadow-sm shrink-0">
+            <span className="font-bold text-xl">42m</span>
+          </div>
+          <div>
+            <div className="font-bold text-gray-900 text-sm">Average Setup Time</div>
+            <div className="text-xs text-gray-500 leading-snug">From purchase to fully operational. If you're not live in 60m, we extend support for free.</div>
+          </div>
         </motion.div>
 
         <div className="relative pl-2">
-           {/* Connecting Line */}
-           <motion.div 
-             initial={{ scaleY: 0 }}
-             animate={{ scaleY: 1 }}
-             transition={{ duration: 1.2, ease: "easeInOut" }}
-             className="absolute left-[5px] top-3 bottom-8 w-0.5 bg-gray-100 origin-top" 
-           />
-           
-           <div className="space-y-12">
-              <motion.div 
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-                className="relative"
-              >
-                 <motion.div 
-                   initial={{ scale: 0 }}
-                   animate={{ scale: 1 }}
-                   transition={{ delay: 0.2, type: "spring" }}
-                   className="w-3 h-3 rounded-full bg-gray-300 border-2 border-white absolute left-0 top-1.5 z-10" 
-                 />
-                 <div className="pl-8">
-                    <div className="font-bold text-gray-900 text-sm leading-none">Duplicate Dashboard</div>
-                    <div className="text-xs text-gray-500 mt-1">Instant copy to your workspace</div>
-                 </div>
-              </motion.div>
+          {/* Connecting Line */}
+          <motion.div
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="absolute left-[5px] top-3 bottom-8 w-0.5 bg-gray-100 origin-top"
+          />
 
-              <motion.div 
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
-                className="relative"
-              >
-                 <motion.div 
-                   initial={{ scale: 0 }}
-                   animate={{ scale: 1 }}
-                   transition={{ delay: 0.5, type: "spring" }}
-                   className="w-3 h-3 rounded-full bg-gray-300 border-2 border-white absolute left-0 top-1.5 z-10" 
-                 />
-                 <div className="pl-8">
-                    <div className="font-bold text-gray-900 text-sm leading-none">Watch Walkthrough</div>
-                    <div className="text-xs text-gray-500 mt-1">Guided video setup (10-15 min)</div>
-                 </div>
-              </motion.div>
+          <div className="space-y-12">
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="relative"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring" }}
+                className="w-3 h-3 rounded-full bg-gray-300 border-2 border-white absolute left-0 top-1.5 z-10"
+              />
+              <div className="pl-8">
+                <div className="font-bold text-gray-900 text-sm leading-none">Duplicate Dashboard</div>
+                <div className="text-xs text-gray-500 mt-1">Instant copy to your workspace</div>
+              </div>
+            </motion.div>
 
-              <motion.div 
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-                className="relative"
-              >
-                 <motion.div 
-                   initial={{ scale: 0 }}
-                   animate={{ scale: 1 }}
-                   transition={{ delay: 0.8, type: "spring" }}
-                   className="w-3 h-3 rounded-full bg-gray-300 border-2 border-white absolute left-0 top-1.5 z-10" 
-                 />
-                 <div className="pl-8">
-                    <div className="font-bold text-gray-900 text-sm leading-none">Input Data</div>
-                    <div className="text-xs text-gray-500 mt-1">Add clients & active projects</div>
-                 </div>
-              </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+              className="relative"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.5, type: "spring" }}
+                className="w-3 h-3 rounded-full bg-gray-300 border-2 border-white absolute left-0 top-1.5 z-10"
+              />
+              <div className="pl-8">
+                <div className="font-bold text-gray-900 text-sm leading-none">Watch Walkthrough</div>
+                <div className="text-xs text-gray-500 mt-1">Guided video setup (10-15 min)</div>
+              </div>
+            </motion.div>
 
-               <motion.div 
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.1 }}
-                className="relative"
-              >
-                 <motion.div 
-                   initial={{ scale: 0 }}
-                   animate={{ scale: 1 }}
-                   transition={{ delay: 1.1, type: "spring" }}
-                   className="w-4 h-4 rounded-full bg-[#ff751f] border-2 border-white absolute left-[-2px] top-1 z-10 shadow-md shadow-brand-orange/30" 
-                 />
-                 <div className="pl-8">
-                    <div className="font-bold text-[#ff751f] text-sm leading-none">System Live</div>
-                    <div className="text-xs text-gray-500 mt-1">Customize & scale</div>
-                 </div>
-              </motion.div>
-           </div>
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8 }}
+              className="relative"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.8, type: "spring" }}
+                className="w-3 h-3 rounded-full bg-gray-300 border-2 border-white absolute left-0 top-1.5 z-10"
+              />
+              <div className="pl-8">
+                <div className="font-bold text-gray-900 text-sm leading-none">Input Data</div>
+                <div className="text-xs text-gray-500 mt-1">Add clients & active projects</div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.1 }}
+              className="relative"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1.1, type: "spring" }}
+                className="w-4 h-4 rounded-full bg-[#ff751f] border-2 border-white absolute left-[-2px] top-1 z-10 shadow-md shadow-brand-orange/30"
+              />
+              <div className="pl-8">
+                <div className="font-bold text-[#ff751f] text-sm leading-none">System Live</div>
+                <div className="text-xs text-gray-500 mt-1">Customize & scale</div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     )
@@ -165,17 +166,17 @@ const FAQS = [
         <div>
           <p className="font-medium text-gray-600 mb-4 leading-relaxed">Based on 100 active users:</p>
           <div className="grid grid-cols-2 gap-4">
-             <div className="bg-green-50/50 border border-green-100 p-4 rounded-2xl">
-                <div className="text-2xl font-bold text-green-600 mb-1">15h+</div>
-                <div className="text-xs font-bold text-green-800 uppercase tracking-wide">Weekly Time Saved</div>
-             </div>
-             <div className="bg-blue-50/50 border border-blue-100 p-4 rounded-2xl">
-                <div className="text-2xl font-bold text-blue-600 mb-1">+$33k</div>
-                <div className="text-xs font-bold text-blue-800 uppercase tracking-wide">Yearly Revenue</div>
-             </div>
+            <div className="bg-green-50/50 border border-green-100 p-4 rounded-2xl">
+              <div className="text-2xl font-bold text-green-600 mb-1">15h+</div>
+              <div className="text-xs font-bold text-green-800 uppercase tracking-wide">Weekly Time Saved</div>
+            </div>
+            <div className="bg-blue-50/50 border border-blue-100 p-4 rounded-2xl">
+              <div className="text-2xl font-bold text-blue-600 mb-1">+$33k</div>
+              <div className="text-xs font-bold text-blue-800 uppercase tracking-wide">Yearly Revenue</div>
+            </div>
           </div>
         </div>
-        
+
         <div>
           <p className="font-bold text-gray-900 mb-3 text-xs uppercase tracking-widest">Adoption Timeline</p>
           <div className="flex items-center gap-3">
@@ -222,7 +223,7 @@ const FAQS = [
               <td className="py-3 font-bold text-green-600">$247 (One-time)</td>
               <td className="py-3 text-red-400">$1,080+ (Monthly Fees)</td>
             </tr>
-             <tr>
+            <tr>
               <td className="py-3 font-medium text-gray-900">Tool Switching</td>
               <td className="py-3 text-gray-700">Zero (All-in-one)</td>
               <td className="py-3 text-gray-500">High (Need ext. apps)</td>
@@ -264,11 +265,10 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggle }) =
     <div className={`mb-4 transition-all duration-500 ${isOpen ? 'scale-[1.01]' : 'scale-100'}`}>
       <button
         onClick={toggle}
-        className={`w-full text-left p-6 md:p-8 rounded-[1.5rem] transition-all duration-300 flex items-center justify-between gap-4 border ${
-          isOpen 
-            ? 'bg-white border-[#ff751f] shadow-xl shadow-brand-orange/5' 
-            : 'bg-white/60 border-black/5 hover:border-black/10 hover:bg-white'
-        }`}
+        className={`w-full text-left p-6 md:p-8 rounded-[1.5rem] transition-all duration-300 flex items-center justify-between gap-4 border ${isOpen
+          ? 'bg-white border-[#ff751f] shadow-xl shadow-brand-orange/5'
+          : 'bg-white/60 border-black/5 hover:border-black/10 hover:bg-white'
+          }`}
       >
         <div className="flex items-center gap-4">
           <div className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${isOpen ? 'bg-[#ff751f] text-white' : 'bg-gray-100 text-gray-400'}`}>
@@ -310,14 +310,15 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, toggle }) =
 
 export const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
   return (
     <section className="pt-16 md:pt-24 pb-16 md:pb-40 relative overflow-hidden px-6 md:px-12 lg:px-24 bg-brand-bg">
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-brand-orange/5 rounded-full blur-[120px] pointer-events-none translate-x-1/2 translate-y-1/2" />
-      
+
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="text-center mb-20">
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
@@ -325,13 +326,13 @@ export const FAQSection: React.FC = () => {
           >
             Common Questions
           </motion.span>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
             className="text-4xl md:text-5xl font-medium text-brand-text tracking-tight"
           >
-            Don't Guess. <br/>
+            Don't Guess. <br />
             <span className="inline-block mt-2 px-4 py-1 bg-[#ff751f]/10 text-[#ff751f] rounded-lg">
               Get Answers in 60 Seconds.
             </span>
@@ -350,20 +351,26 @@ export const FAQSection: React.FC = () => {
           ))}
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           className="mt-16 text-center p-8 glass-panel rounded-3xl border-dashed border-gray-200"
         >
-          <p className="text-gray-500 font-medium mb-4">Still have questions? We're here to help.</p>
-          <a 
-            href="mailto:support@unikbuilds.com" 
+          <p className="text-gray-500 font-medium mb-4">Still have questions? <br /> We're here to help.</p>
+          <button
+            onClick={() => setIsSupportModalOpen(true)}
             className="inline-flex items-center gap-2 text-[#ff751f] font-bold hover:gap-3 transition-all underline underline-offset-4"
           >
+            <MessageSquare className="w-5 h-5" />
             Chat with our support team
-          </a>
+          </button>
         </motion.div>
+
+        <SupportFormModal
+          isOpen={isSupportModalOpen}
+          onClose={() => setIsSupportModalOpen(false)}
+        />
       </div>
     </section>
   );

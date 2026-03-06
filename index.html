@@ -1,136 +1,148 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KineticOS - The Freelance Operating System</title>
-    
-    <!-- Font Performance Strategy: Preconnect to warm up DNS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Font Strategy: Added Inter for the "Framer" tech look, kept Poppins for Headings -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                bg: '#fffff5',
-                text: '#292929',
-                accent: '#fffff5', 
-                'accent-hover': '#f0f0e6',
-                'accent-text': '#292929', 
-                'orange': '#ff751f', 
-              }
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'], /* Switched to Inter for body */
-              heading: ['Poppins', 'sans-serif'], /* Poppins for headings */
-            },
-            fontWeight: {
-              normal: '400',
-              medium: '500',
-              semibold: '600',
-              bold: '700', 
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KineticOS - The Freelance Operating System</title>
+
+  <!-- Font Performance Strategy: Preconnect to warm up DNS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Font Strategy: Added Inter for the "Framer" tech look, kept Poppins for Headings -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#fffff5',
+              text: '#292929',
+              accent: '#fffff5',
+              'accent-hover': '#f0f0e6',
+              'accent-text': '#292929',
+              'orange': '#ff751f',
             }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'], /* Switched to Inter for body */
+            heading: ['Poppins', 'sans-serif'], /* Poppins for headings */
+          },
+          fontWeight: {
+            normal: '400',
+            medium: '500',
+            semibold: '600',
+            bold: '700',
           }
         }
       }
-    </script>
+    }
+  </script>
 
-    <style>
-      :root {
-        /* Brand Color System - Inverted */
-        --color-bg-primary: #fffff5;
-        --color-text-primary: #292929;
-        --color-text-secondary: #525252;
-        --color-accent: #fffff5; 
-        --color-accent-hover: #f0f0e6;
-        --color-accent-text: #292929;
-        --color-orange: #ff751f;
-        
-        /* Typography Scales */
-        --font-main: 'Inter', sans-serif;
-        --font-heading: 'Poppins', sans-serif;
-        --font-size-h1: clamp(2.25rem, 5vw, 3.5rem);
-        --font-size-h2: clamp(1.75rem, 4vw, 2.25rem);
-        --font-size-h3: clamp(1.25rem, 2vw, 1.5rem);
-        --font-size-body: clamp(1rem, 1.5vw, 1.0625rem);
-        --line-height-body: 1.6;
-      }
+  <style>
+    :root {
+      /* Brand Color System - Inverted */
+      --color-bg-primary: #fffff5;
+      --color-text-primary: #292929;
+      --color-text-secondary: #525252;
+      --color-accent: #fffff5;
+      --color-accent-hover: #f0f0e6;
+      --color-accent-text: #292929;
+      --color-orange: #ff751f;
 
-      /* LENIS RECOMMENDED CSS */
-      html.lenis, html.lenis body {
-        height: auto;
-      }
-      
-      .lenis.lenis-smooth {
-        scroll-behavior: auto !important;
-      }
-      
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
-      
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
-      
-      .lenis.lenis-scrolling iframe {
-        pointer-events: none;
-      }
+      /* Typography Scales */
+      --font-main: 'Inter', sans-serif;
+      --font-heading: 'Poppins', sans-serif;
+      --font-size-h1: clamp(2.25rem, 5vw, 3.5rem);
+      --font-size-h2: clamp(1.75rem, 4vw, 2.25rem);
+      --font-size-h3: clamp(1.25rem, 2vw, 1.5rem);
+      --font-size-body: clamp(1rem, 1.5vw, 1.0625rem);
+      --line-height-body: 1.6;
+    }
 
-      html {
-        /* REMOVED scroll-behavior: smooth to prevent conflict with Lenis */
-      }
+    /* LENIS RECOMMENDED CSS */
+    html.lenis,
+    html.lenis body {
+      height: auto;
+    }
 
-      body {
-        font-family: var(--font-main);
-        background-color: var(--color-bg-primary);
-        color: var(--color-text-primary);
-        font-size: var(--font-size-body);
-        line-height: var(--line-height-body);
-        font-weight: 400;
-        /* Framer Feel Text Rendering */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-rendering: optimizeLegibility;
-      }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
 
-      /* Hierarchy Enforced via CSS Variables */
-      h1, .h1, h2, .h2, h3, .h3 { 
-        font-family: var(--font-heading);
-      }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
 
-      h1, .h1 { 
-        font-size: var(--font-size-h1);
-        font-weight: 600; 
-        color: var(--color-text-primary);
-        letter-spacing: -0.03em; /* Tighter tracking for modern feel */
-        line-height: 1.1;
-      }
-      
-      h2, .h2 { 
-        font-size: var(--font-size-h2);
-        font-weight: 600; 
-        color: var(--color-text-primary);
-        letter-spacing: -0.02em; 
-        line-height: 1.2;
-      }
-      
-      h3, .h3 { 
-        font-size: var(--font-size-h3);
-        font-weight: 600; 
-        line-height: 1.3;
-        letter-spacing: -0.01em;
-      }
-      
-      /* 
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    .lenis.lenis-scrolling iframe {
+      pointer-events: none;
+    }
+
+    html {
+      /* REMOVED scroll-behavior: smooth to prevent conflict with Lenis */
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-size: var(--font-size-body);
+      line-height: var(--line-height-body);
+      font-weight: 400;
+      /* Framer Feel Text Rendering */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Hierarchy Enforced via CSS Variables */
+    h1,
+    .h1,
+    h2,
+    .h2,
+    h3,
+    .h3 {
+      font-family: var(--font-heading);
+    }
+
+    h1,
+    .h1 {
+      font-size: var(--font-size-h1);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.03em;
+      /* Tighter tracking for modern feel */
+      line-height: 1.1;
+    }
+
+    h2,
+    .h2 {
+      font-size: var(--font-size-h2);
+      font-weight: 600;
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h3,
+    .h3 {
+      font-size: var(--font-size-h3);
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    /* 
          PREMIUM GLASSMORPHISM ENGINE (BingeLabs Style)
          Key Elements:
          1. High Blur (20px+) for creamy background diffusion.
@@ -139,141 +151,106 @@
          4. Inner Shadows/Glows to give the glass "volume" or thickness.
          5. Gradient Background Opacity for sheen.
       */
-      .glass-panel {
-        /* Base: subtle gradient white */
-        background: linear-gradient(
-          165deg,
+    .glass-panel {
+      /* Base: subtle gradient white */
+      background: linear-gradient(165deg,
           rgba(255, 255, 255, 0.75) 0%,
-          rgba(255, 255, 255, 0.45) 100%
-        );
-        
-        /* The Blur & Color Pop */
-        backdrop-filter: blur(24px) saturate(180%);
-        -webkit-backdrop-filter: blur(24px) saturate(180%);
-        
-        /* The "Light Source" Border */
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        border-top: 1px solid rgba(255, 255, 255, 0.9);
-        border-left: 1px solid rgba(255, 255, 255, 0.7);
-        border-right: 1px solid rgba(255, 255, 255, 0.3);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        
-        /* Depth Shadows + Inner Volume Glow */
-        box-shadow: 
-          0 10px 40px -10px rgba(0, 0, 0, 0.08), /* Soft drop shadow */
-          inset 0 0 0 1px rgba(255, 255, 255, 0.4), /* Sharp inner rim */
-          inset 0 10px 20px -10px rgba(255, 255, 255, 0.6); /* Top-down inner light glow */
-          
-        position: relative;
-        /* Note: overflow:hidden might be needed on usage if rounded corners clip content */
-      }
+          rgba(255, 255, 255, 0.45) 100%);
 
-      /* Navigation Bar Specific Glass (Needs higher opacity for readability) */
-      .glass-nav {
-        background: rgba(255, 255, 255, 0.85);
-        background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-        backdrop-filter: blur(24px) saturate(180%);
-        -webkit-backdrop-filter: blur(24px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-        box-shadow: 
-          0 4px 24px -1px rgba(0, 0, 0, 0.04),
-          inset 0 1px 0 0 rgba(255, 255, 255, 1);
-      }
-      
-      /* Subtle white shine animation for interactive glass elements */
-      .glass-shine {
-        position: relative;
-        overflow: hidden;
-      }
-      .glass-shine::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          120deg,
-          rgba(255,255,255,0) 30%,
-          rgba(255,255,255,0.4) 50%,
-          rgba(255,255,255,0) 70%
-        );
-        transform: translateX(-100%);
-        transition: transform 0.6s;
-        pointer-events: none;
-      }
-      .glass-shine:hover::after {
-        transform: translateX(100%);
-        transition: transform 0.8s ease-in-out;
-      }
-      
-      /* CTA Button Typography */
-      button {
-        font-weight: 600 !important;
-        letter-spacing: 0.01em !important;
-      }
+      /* The Blur & Color Pop */
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
 
-      .orange-gradient-text {
-        color: var(--color-orange);
-      }
-      
-      .orange-gradient-bg {
-        background: var(--color-orange);
-      }
-      
-      /* Hide scrollbar */
-      .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-      }
-      .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "framer-motion": "https://esm.sh/framer-motion@^12.23.26",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "stripe": "https://esm.sh/stripe@^20.1.0",
-    "cors": "https://esm.sh/cors@^2.8.5",
-    "body-parser": "https://esm.sh/body-parser@^2.2.1",
-    "dotenv": "https://esm.sh/dotenv@^17.2.3",
-    "express": "https://esm.sh/express@^5.2.1",
-    "lenis": "https://esm.sh/lenis@^1.3.17"
-  }
-}
-</script>
+      /* The "Light Source" Border */
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.9);
+      border-left: 1px solid rgba(255, 255, 255, 0.7);
+      border-right: 1px solid rgba(255, 255, 255, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+      /* Depth Shadows + Inner Volume Glow */
+      box-shadow:
+        0 10px 40px -10px rgba(0, 0, 0, 0.08),
+        /* Soft drop shadow */
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+        /* Sharp inner rim */
+        inset 0 10px 20px -10px rgba(255, 255, 255, 0.6);
+      /* Top-down inner light glow */
+
+      position: relative;
+      /* Note: overflow:hidden might be needed on usage if rounded corners clip content */
+    }
+
+    /* Navigation Bar Specific Glass (Needs higher opacity for readability) */
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      box-shadow:
+        0 4px 24px -1px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 0 rgba(255, 255, 255, 1);
+    }
+
+    /* Subtle white shine animation for interactive glass elements */
+    .glass-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-shine::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(120deg,
+          rgba(255, 255, 255, 0) 30%,
+          rgba(255, 255, 255, 0.4) 50%,
+          rgba(255, 255, 255, 0) 70%);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+      pointer-events: none;
+    }
+
+    .glass-shine:hover::after {
+      transform: translateX(100%);
+      transition: transform 0.8s ease-in-out;
+    }
+
+    /* CTA Button Typography */
+    button {
+      font-weight: 600 !important;
+      letter-spacing: 0.01em !important;
+    }
+
+    .orange-gradient-text {
+      color: var(--color-orange);
+    }
+
+    .orange-gradient-bg {
+      background: var(--color-orange);
+    }
+
+    /* Hide scrollbar */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+
 </head>
-  <body>
-    <div id="root"></div>
-    
-    <!-- LENIS SCROLL SCRIPT -->
-    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script> 
-    <script>
-      // Initialize Lenis with "Framer-like" physics
-      // Higher duration + specific easing creates that "heavy/luxurious" feel
-      const lenis = new Lenis({
-        duration: 1.5,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        mouseMultiplier: 1.0,
-        smoothTouch: false,
-        touchMultiplier: 2,
-      });
 
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
 
-      requestAnimationFrame(raf);
-    </script>
-  </body>
 </html>
