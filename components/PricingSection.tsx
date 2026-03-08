@@ -33,11 +33,23 @@ export const PricingSection: React.FC = () => {
   const handleCheckout = async (priceId: string) => {
     setLoading(priceId);
     try {
-      // Simulate API call for demo purposes if backend not running
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      alert("This would open Stripe Checkout in production.");
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ priceId }),
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
     } catch (error) {
       console.error('Checkout error:', error);
+      alert("Checkout failed. Please try again later.");
     } finally {
       setLoading(null);
     }

@@ -36,7 +36,7 @@ export const SupportFormModal: React.FC<SupportFormModalProps> = ({ isOpen, onCl
         setFormState('submitting');
 
         try {
-            const response = await fetch('http://localhost:4242/api/support', {
+            const response = await fetch('/api/support', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
