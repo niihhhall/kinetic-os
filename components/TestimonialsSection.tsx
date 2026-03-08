@@ -62,25 +62,25 @@ const TESTIMONIALS = [
 ];
 
 // Added className to props to fix type error at usage site
-const TickerColumn = ({ 
-  items, 
-  reverse = false, 
+const TickerColumn = ({
+  items,
+  reverse = false,
   duration = 30,
-  className = "" 
-}: { 
-  items: typeof TESTIMONIALS, 
-  reverse?: boolean, 
+  className = ""
+}: {
+  items: typeof TESTIMONIALS,
+  reverse?: boolean,
   duration?: number,
-  className?: string 
+  className?: string
 }) => {
   // Triple items to ensure seamless loop
   const tripledItems = [...items, ...items, ...items];
-  
+
   return (
     <div className={`flex flex-col gap-6 relative overflow-hidden h-[600px] ${className}`}>
       <motion.div
-        animate={{ 
-          y: reverse ? ["-66.66%", "0%"] : ["0%", "-66.66%"] 
+        animate={{
+          y: reverse ? ["-66.66%", "0%"] : ["0%", "-66.66%"]
         }}
         transition={{
           duration: duration,
@@ -90,21 +90,21 @@ const TickerColumn = ({
         className="flex flex-col gap-6"
       >
         {tripledItems.map((item, idx) => (
-          <div 
+          <div
             key={idx}
             className="bg-[#ff751f] text-white p-8 rounded-3xl shadow-xl border border-white/10 w-full relative overflow-hidden group"
           >
-             {/* Subtle internal gradient for depth */}
+            {/* Subtle internal gradient for depth */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
-            
+
             <p className="text-lg font-medium leading-relaxed mb-8 relative z-10">
               "{item.quote}"
             </p>
             <div className="flex items-center gap-4 relative z-10">
-              <img 
-                src={item.avatar} 
-                alt={item.author} 
-                className="w-12 h-12 rounded-full border-2 border-white/20 object-cover" 
+              <img
+                src={item.avatar}
+                alt={item.author}
+                className="w-12 h-12 rounded-full border-2 border-white/20 object-cover"
               />
               <div>
                 <h4 className="font-bold text-white leading-none mb-1">{item.author}</h4>
@@ -123,35 +123,35 @@ const MobileTestimonials = ({ items }: { items: typeof TESTIMONIALS }) => {
   const tickerItems = [...items, ...items, ...items];
 
   return (
-    <div className="md:hidden relative w-full overflow-hidden py-4 -mx-6">
+    <div className="lg:hidden relative w-full overflow-hidden py-4 -mx-6">
       <motion.div
         className="flex gap-4 px-6 w-max"
         animate={{
-          x: ["0%", "-33.333%"] 
+          x: ["0%", "-33.333%"]
         }}
         transition={{
-          duration: 45, // Slightly slower for readability on mobile
+          duration: 35, // Balanced speed for mobile and tablet
           ease: "linear",
           repeat: Infinity
         }}
       >
         {tickerItems.map((item, idx) => (
-          <div 
+          <div
             key={`${idx}-${item.author}`}
-            className="w-[85vw] sm:w-[400px] shrink-0 bg-[#ff751f] text-white p-8 rounded-3xl shadow-xl border border-white/10 flex flex-col justify-between relative overflow-hidden group h-[380px]"
+            className="w-[85vw] sm:w-[500px] shrink-0 bg-[#ff751f] text-white p-8 rounded-3xl shadow-xl border border-white/10 flex flex-col justify-between relative overflow-hidden group h-[380px]"
           >
             {/* Aesthetic background blobs - Preserved from original */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-16 -mt-16 pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/5 rounded-full blur-xl -ml-12 -mb-12 pointer-events-none" />
-            
+
             <p className="text-lg font-medium leading-relaxed mb-8 relative z-10">
               "{item.quote}"
             </p>
             <div className="flex items-center gap-4 mt-auto relative z-10">
-              <img 
-                src={item.avatar} 
-                alt={item.author} 
-                className="w-12 h-12 rounded-full border-2 border-white/20 object-cover" 
+              <img
+                src={item.avatar}
+                alt={item.author}
+                className="w-12 h-12 rounded-full border-2 border-white/20 object-cover"
               />
               <div>
                 <h4 className="font-bold text-white leading-none mb-1">{item.author}</h4>
@@ -172,10 +172,10 @@ export const TestimonialsSection: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-full h-24 md:h-48 bg-gradient-to-b from-white/0 via-brand-bg/60 to-brand-bg pointer-events-none z-0" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        
+
         {/* Header Section */}
         <div className="mb-12 md:mb-16">
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -184,7 +184,7 @@ export const TestimonialsSection: React.FC = () => {
           >
             Testimonials
           </motion.span>
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -199,8 +199,8 @@ export const TestimonialsSection: React.FC = () => {
         <MobileTestimonials items={TESTIMONIALS} />
 
         {/* Desktop View: Vertical Ticker Grid */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
-          
+        <div className="hidden lg:grid lg:grid-cols-3 gap-8 relative">
+
           {/* Vertical Columns */}
           <TickerColumn items={TESTIMONIALS.slice(0, 3)} duration={40} />
           <TickerColumn items={TESTIMONIALS.slice(3, 6)} reverse duration={35} />
@@ -227,8 +227,8 @@ export const TestimonialsSection: React.FC = () => {
               <div className="text-sm text-gray-500 font-medium">Client Satisfaction</div>
             </div>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
             className="bg-[#ff751f] text-white px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-[#ff751f]/20"
           >
