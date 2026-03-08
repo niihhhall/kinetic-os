@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 
 // Initialize Stripe
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
-    apiVersion: '2023-10-16',
+  apiVersion: '2023-10-16',
 });
 
 // Initialize Resend
@@ -18,22 +18,39 @@ export const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabase
 
 // Branded Email Template Wrapper
 export const brandedEmailTemplate = (title, content) => `
-<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f9fafb; padding: 40px 20px; color: #111827;">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+</style>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f9fafb; color: #111827;">
+<div style="background-color: #f9fafb; padding: 40px 20px;">
   <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 24px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);">
     <!-- Header -->
-    <div style="background-color: #ff751f; padding: 32px 40px; text-align: left; display: flex; align-items: center; gap: 16px;">
-      <img src="https://kineticos.store/logo.svg" alt="Logo" style="width: 32px; height: 32px; border-radius: 8px;" />
-      <h2 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.025em;">KineticOS</h2>
+    <div style="background-color: #ff751f; padding: 32px 40px; text-align: left;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+          <td width="40" style="vertical-align: middle;">
+            <img src="https://kineticos.store/favicon.png" alt="" width="32" height="32" style="display: block; border-radius: 8px;" />
+          </td>
+          <td style="padding-left: 12px; vertical-align: middle;">
+            <h2 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.025em; line-height: 1;">KineticOS</h2>
+          </td>
+        </tr>
+      </table>
     </div>
     
     <!-- Content -->
     <div style="padding: 40px;">
-      <h1 style="margin: 0 0 24px 0; color: #111827; font-size: 20px; font-weight: 700;">${title}</h1>
+      <h1 style="margin: 0 0 24px 0; color: #111827; font-size: 20px; font-weight: 700; line-height: 1.2;">${title}</h1>
       <div style="line-height: 1.6; color: #4b5563; font-size: 16px;">
         ${content}
       </div>
       <div style="margin-top: 32px; opacity: 0.2; text-align: center;">
-        <img src="https://kineticos.store/logo.svg" alt="*" style="width: 20px; height: 20px;" />
+        <img src="https://kineticos.store/favicon.png" alt="*" width="20" height="20" style="display: inline-block;" />
       </div>
     </div>
     
@@ -48,4 +65,6 @@ export const brandedEmailTemplate = (title, content) => `
     </div>
   </div>
 </div>
+</body>
+</html>
 `;

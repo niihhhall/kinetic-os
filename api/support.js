@@ -40,7 +40,7 @@ export default async function handler(req, res) {
             );
 
             await resend.emails.send({
-                from: 'KineticOS Support <noreply@kineticos.store>',
+                from: 'KineticOS <noreply@kineticos.store>',
                 to: 'link.nikhilmishra@gmail.com',
                 subject: `[Support] New Message from ${name}`,
                 html: ownerHtml

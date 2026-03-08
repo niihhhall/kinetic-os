@@ -59,7 +59,7 @@ export default async function handler(req, res) {
                 );
 
                 await resend.emails.send({
-                    from: 'KineticOS Support <noreply@kineticos.store>',
+                    from: 'KineticOS <noreply@kineticos.store>',
                     to: session.customer_details.email,
                     subject: 'Your KineticOS Notion Template',
                     html: purchaseHtml
