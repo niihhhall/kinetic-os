@@ -72,7 +72,7 @@ export const StickyCTA: React.FC<StickyCTAProps> = ({ onToggleMenu }) => {
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
           style={{ bottom: bottomOffset }}
-          className="fixed left-0 right-0 z-50 flex justify-center pointer-events-none px-4"
+          className="fixed left-0 right-0 z-50 flex justify-center pointer-events-none px-4 sticky-cta-container"
         >
           {/* Main Floating Dock Container */}
           <div className="pointer-events-auto bg-white/85 backdrop-blur-xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.12)] rounded-full p-1.5 flex items-center gap-2 md:gap-3 transition-all duration-300 ring-1 ring-black/5 max-w-[95vw] md:max-w-auto">

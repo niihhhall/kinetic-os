@@ -27,6 +27,16 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
     if (ref) setReferredBy(ref);
   }, []);
 
+  // Prevent background elements from showing when modal is open
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modal-active');
+    } else {
+      document.body.classList.remove('modal-active');
+    }
+    return () => document.body.classList.remove('modal-active');
+  }, [isOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -93,26 +103,26 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                 <X className="w-5 h-5" />
               </button>
               
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 overflow-hidden">
-                  <img src="https://kineticos.store/favicon.png" alt="" className="w-6 h-6 object-contain" />
+              <div className="flex flex-col items-center text-center gap-3 mb-4">
+                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 overflow-hidden shadow-inner">
+                  <img src="https://kineticos.store/favicon.png" alt="" className="w-7 h-7 object-contain" />
                 </div>
                 <h2 className="text-xl md:text-2xl font-bold tracking-tight">KineticOS Waitlist</h2>
               </div>
               
               {!success ? (
-                <>
-                  <p className="text-white/80 text-xs md:text-sm leading-relaxed max-w-sm">
+                <div className="flex justify-center">
+                  <p className="text-white/80 text-xs md:text-sm leading-relaxed max-w-sm text-center">
                     Join the exclusive list of operators scaling their business without the chaos. You're joining for the <span className="text-white font-bold">{tier}</span> tier.
                   </p>
-                </>
+                </div>
               ) : (
-                <>
-                  <p className="text-white/80 text-xs md:text-sm leading-relaxed max-w-sm">
+                <div className="flex justify-center">
+                  <p className="text-white/80 text-xs md:text-sm leading-relaxed max-w-sm text-center">
                     You're in! Welcome to the future of high-velocity operations.
                   </p>
-                </>
-              )}
+                </div>
+              )  }
             </div>
 
             <div className="p-6 md:p-10 bg-white">
