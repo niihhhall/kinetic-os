@@ -39,6 +39,7 @@ import { FAQSection } from './components/FAQSection';
 import { FeatureTickerSection } from './components/FeatureTickerSection';
 import { ClientAchievementSection } from './components/ClientAchievementSection';
 import { ComparisonMatrixSection } from './components/ComparisonMatrixSection';
+import { ChatWidget } from './components/ChatWidget';
 
 const AsteriskLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
   <motion.svg
@@ -486,6 +487,7 @@ function App() {
       </main>
 
       <StickyCTA onToggleMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+      <ChatWidget />
     </div>
   );
 }

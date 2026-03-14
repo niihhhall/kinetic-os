@@ -200,7 +200,7 @@ export const VideoSection: React.FC = () => {
         {/* CTA */}
         <div className="flex justify-center relative z-10">
            <Button className="w-full md:w-auto text-xl px-16 py-6" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
-             Get Pro Edition — $247
+             Join the Waitlist
            </Button>
         </div>
       </div>

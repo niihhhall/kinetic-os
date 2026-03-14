@@ -119,7 +119,7 @@ export const StickyCTA: React.FC<StickyCTAProps> = ({ onToggleMenu }) => {
                     }}
                     className="text-[10px] font-bold uppercase tracking-wider block"
                   >
-                    Prices rise in 72h
+                    Reserve Your Slot
                   </motion.span>
                 </div>
               </div>
@@ -130,8 +130,7 @@ export const StickyCTA: React.FC<StickyCTAProps> = ({ onToggleMenu }) => {
               onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-[#ff751f] hover:bg-[#e6641a] text-white text-xs font-bold px-5 py-3 md:px-4 md:py-2.5 rounded-full transition-colors flex items-center gap-1.5 shadow-lg shadow-brand-orange/20 active:scale-95"
             >
-              <span className="hidden md:inline">Get Access</span>
-              <span className="md:hidden">Get Access</span>
+              <span>Join the Waitlist</span>
               <ArrowRight className="w-3.5 h-3.5 md:group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>

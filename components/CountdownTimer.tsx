@@ -11,15 +11,9 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
   const endTimeRef = useRef<number>(0);
 
   useEffect(() => {
-    // Check if we already have a stored end time to maintain consistency across refreshes
-    const storedEnd = localStorage.getItem('kinetic_os_offer_end');
-    if (storedEnd) {
-      endTimeRef.current = parseInt(storedEnd, 10);
-    } else {
-      const newEnd = Date.now() + 72 * 60 * 60 * 1000;
-      endTimeRef.current = newEnd;
-      localStorage.setItem('kinetic_os_offer_end', newEnd.toString());
-    }
+    // Fixed target date: March 18, 2026
+    const targetDate = new Date('2026-03-18T00:00:00Z').getTime();
+    endTimeRef.current = targetDate;
 
     const animate = () => {
       const now = Date.now();

@@ -8,26 +8,26 @@ import { Mail, Copy, PlayCircle, Timer } from 'lucide-react';
 const STEPS = [
   {
     id: 1,
-    title: "Instant Access",
-    description: "Instant email with dashboard link",
+    title: "Spot Confirmation",
+    description: "Instant email confirming your position",
     icon: Mail
   },
   {
     id: 2,
-    title: "One-Click Install",
-    description: "Duplicate to your Notion workspace (1 click)",
+    title: "Exclusive Updates",
+    description: "Get personal invites as spots open",
     icon: Copy
   },
   {
     id: 3,
-    title: "Guided Setup",
-    description: "Follow setup guide or video walkthrough",
+    title: "Direct Access",
+    description: "One-click onboarding when invited",
     icon: PlayCircle
   },
   {
     id: 4,
-    title: "Immediate ROI",
-    description: "Start recovering time within 24 hours",
+    title: "Scale Instantly",
+    description: "Start recovering time immediately",
     icon: Timer
   }
 ];
@@ -48,7 +48,7 @@ export const PostPurchaseSection: React.FC = () => {
           className="text-center mb-16"
         >
           <h3 className="text-2xl md:text-3xl font-medium text-brand-text">
-            What happens after purchase:
+            What happens after joining:
           </h3>
         </motion.div>
 

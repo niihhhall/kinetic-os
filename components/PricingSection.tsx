@@ -7,6 +7,7 @@ import { Check, Zap, RefreshCw, Lock, Database, Loader2, Star, ShieldCheck } fro
 import { Button } from './ui/Button';
 import { CountdownTimer } from './CountdownTimer';
 import { PRICING_TIERS } from '../constants';
+import { WaitlistModal } from './WaitlistModal';
 
 const TransformationItem = ({ icon, text }: { icon: string, text: string }) => (
   <div className="flex items-start gap-3 text-sm text-gray-600">
@@ -28,31 +29,76 @@ const FeatureItem: React.FC<{ text: string; subtext?: string; highlight?: boolea
 );
 
 export const PricingSection: React.FC = () => {
+  const isPreLaunch = true; // Toggle this for launch day
   const [loading, setLoading] = useState<string | null>(null);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<string | undefined>();
 
-  const handleCheckout = async (priceId: string) => {
-    setLoading(priceId);
+  const handleRazorpayCheckout = async (tier: any) => {
+    setLoading(tier.name);
     try {
-      const response = await fetch('/api/create-checkout-session', {
+      const response = await fetch('/api/create-razorpay-order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ priceId }),
+        body: JSON.stringify({
+          amount: tier.price,
+          currency: 'USD', // Based on the UI showing $
+          receipt: `receipt_${tier.name.toLowerCase()}_${Date.now()}`
+        }),
       });
 
-      const data = await response.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(data.error || 'Failed to create checkout session');
+      const orderData = await response.json();
+
+      if (!orderData.id) {
+        throw new Error(orderData.error || 'Failed to create order');
       }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      alert("Checkout failed. Please try again later.");
+
+      const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "KineticOS",
+        description: `Upgrade to ${tier.name}`,
+        image: "https://kineticos.store/favicon.png",
+        order_id: orderData.id,
+        handler: function (response: any) {
+          console.log('Payment Successful:', response);
+          window.location.href = `/success?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}`;
+        },
+        prefill: {
+          name: "",
+          email: "",
+          contact: ""
+        },
+        theme: {
+          color: "#ff751f"
+        }
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.on('payment.failed', function (response: any) {
+        console.error('Payment Failed:', response.error);
+        alert(`Payment failed: ${response.error.description}`);
+      });
+      rzp.open();
+    } catch (error: any) {
+      console.error('Razorpay error:', error);
+      alert(`Error: ${error.message || 'Payment failed'}`);
     } finally {
       setLoading(null);
     }
+  };
+
+  const handleCheckout = async (tier: any) => {
+    if (isPreLaunch) {
+      setSelectedTier(tier.name);
+      setIsWaitlistOpen(true);
+      return;
+    }
+    // Defaulting to Razorpay as per request
+    return handleRazorpayCheckout(tier);
   };
 
   const starterTier = PRICING_TIERS[0];
@@ -131,8 +177,14 @@ export const PricingSection: React.FC = () => {
             <div className="mb-8 min-h-[180px]">
               <h3 className="text-gray-400 font-bold uppercase tracking-[0.2em] text-xs mb-4">Solo Freelancer</h3>
               <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-5xl font-bold text-brand-text tracking-tighter">${starterTier.price}</span>
-                <span className="text-xl text-gray-400 line-through font-medium opacity-60">${starterTier.originalPrice}</span>
+                {isPreLaunch ? (
+                  <span className="text-3xl font-bold text-[#ff751f] tracking-tight">Waitlist Only</span>
+                ) : (
+                  <>
+                    <span className="text-5xl font-bold text-brand-text tracking-tighter">${starterTier.price}</span>
+                    <span className="text-xl text-gray-400 line-through font-medium opacity-60">${starterTier.originalPrice}</span>
+                  </>
+                )}
               </div>
               <p className="text-gray-500 text-sm font-medium leading-relaxed">
                 Perfect for organizing your first 3-5 clients and getting paid faster.
@@ -163,22 +215,21 @@ export const PricingSection: React.FC = () => {
               <Button
                 variant="outline"
                 fullWidth
-                onClick={() => handleCheckout(starterTier.stripePriceId)}
+                onClick={() => handleCheckout(starterTier)}
                 disabled={!!loading}
                 className="hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300"
               >
-                {loading === starterTier.stripePriceId ? <Loader2 className="w-5 h-5 animate-spin" /> : `Get Starter — $${starterTier.price}`}
+                {loading === starterTier.name ? <Loader2 className="w-5 h-5 animate-spin" /> : (isPreLaunch ? "Join the Waitlist" : `Get Starter — $${starterTier.price}`)}
               </Button>
             </div>
           </motion.div>
 
-          {/* CENTER CARD: Power Freelancer (HERO) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-[2.5rem] border-2 border-[#ff751f] p-8 xl:p-12 flex flex-col h-full relative shadow-2xl shadow-orange-500/15 lg:-my-8 lg:py-16 z-10"
+            className="bg-white rounded-[2.5rem] border-2 border-[#ff751f] p-8 xl:p-12 flex flex-col relative shadow-2xl shadow-orange-500/15 lg:-my-8 lg:pt-20 lg:pb-24 z-10"
           >
             {/* Most Popular Badge */}
             <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-[#ff751f] text-white px-6 py-2 rounded-full shadow-lg shadow-orange-500/30 flex items-center gap-2">
@@ -187,15 +238,23 @@ export const PricingSection: React.FC = () => {
             </div>
 
             {/* Header Zone */}
-            <div className="mb-8 min-h-[180px] text-center lg:text-left">
+            <div className="mb-8 min-h-[180px] text-center">
               <h3 className="text-[#ff751f] font-bold uppercase tracking-[0.2em] text-xs mb-4">Power Freelancer</h3>
-              <div className="flex items-baseline gap-3 mb-4 justify-center lg:justify-start">
-                <span className="text-6xl lg:text-7xl font-bold text-brand-text tracking-tighter">${proTier.price}</span>
-                <span className="text-2xl text-gray-300 line-through font-medium">${proTier.originalPrice}</span>
+              <div className="flex items-baseline gap-3 mb-4 justify-center">
+                {isPreLaunch ? (
+                  <span className="text-4xl font-bold text-[#ff751f] tracking-tight">Waitlist Only</span>
+                ) : (
+                  <>
+                    <span className="text-6xl lg:text-7xl font-bold text-brand-text tracking-tighter">${proTier.price}</span>
+                    <span className="text-2xl text-gray-300 line-through font-medium">${proTier.originalPrice}</span>
+                  </>
+                )}
               </div>
-              <div className="inline-block bg-[#ff751f]/10 text-[#ff751f] text-[11px] font-bold px-3 py-1.5 rounded-lg border border-[#ff751f]/20 uppercase tracking-widest mb-4">
-                Save ${proTier.originalPrice - proTier.price} — Limited Time
-              </div>
+              {!isPreLaunch && (
+                <div className="inline-block bg-[#ff751f]/10 text-[#ff751f] text-[11px] font-bold px-3 py-1.5 rounded-lg border border-[#ff751f]/20 uppercase tracking-widest mb-4">
+                  Save ${proTier.originalPrice - proTier.price} — Limited Time
+                </div>
+              )}
               <p className="text-gray-500 text-sm font-medium leading-relaxed">
                 The complete system to scale to $10k+ months without burnout.
               </p>
@@ -230,15 +289,12 @@ export const PricingSection: React.FC = () => {
               <Button
                 variant="primary"
                 fullWidth
-                onClick={() => handleCheckout(proTier.stripePriceId)}
+                onClick={() => handleCheckout(proTier)}
                 disabled={!!loading}
                 className="py-5 text-lg shadow-xl shadow-orange-500/20"
               >
-                {loading === proTier.stripePriceId ? <Loader2 className="w-6 h-6 animate-spin" /> : `Get Complete System — $${proTier.price}`}
+                {loading === proTier.name ? <Loader2 className="w-6 h-6 animate-spin" /> : (isPreLaunch ? "Join the Waitlist" : `Get Complete System — $${proTier.price}`)}
               </Button>
-              <div className="text-center mt-4">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">30-Day Money Back Guarantee</span>
-              </div>
             </div>
           </motion.div>
 
@@ -254,8 +310,14 @@ export const PricingSection: React.FC = () => {
             <div className="mb-8 min-h-[180px]">
               <h3 className="text-gray-400 font-bold uppercase tracking-[0.2em] text-xs mb-4">Agency / VIP</h3>
               <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-5xl font-bold text-brand-text tracking-tighter">${vipTier.price}</span>
-                <span className="text-xl text-gray-400 line-through font-medium opacity-60">${vipTier.originalPrice}</span>
+                {isPreLaunch ? (
+                  <span className="text-3xl font-bold text-[#ff751f] tracking-tight">Waitlist Only</span>
+                ) : (
+                  <>
+                    <span className="text-5xl font-bold text-brand-text tracking-tighter">${vipTier.price}</span>
+                    <span className="text-xl text-gray-400 line-through font-medium opacity-60">${vipTier.originalPrice}</span>
+                  </>
+                )}
               </div>
               <div className="inline-block bg-purple-50 text-purple-600 text-[11px] font-bold px-3 py-1.5 rounded-lg border border-purple-100 uppercase tracking-widest mb-4">
                 Done-For-You Setup
@@ -289,11 +351,11 @@ export const PricingSection: React.FC = () => {
               <Button
                 variant="outline"
                 fullWidth
-                onClick={() => handleCheckout(vipTier.stripePriceId)}
+                onClick={() => handleCheckout(vipTier)}
                 disabled={!!loading}
                 className="hover:border-purple-500 hover:text-purple-600 hover:bg-purple-50"
               >
-                {loading === vipTier.stripePriceId ? <Loader2 className="w-5 h-5 animate-spin" /> : `Get VIP Setup — $${vipTier.price}`}
+                {loading === vipTier.name ? <Loader2 className="w-5 h-5 animate-spin" /> : (isPreLaunch ? "Join the Waitlist" : `Get VIP Setup — $${vipTier.price}`)}
               </Button>
             </div>
           </motion.div>
@@ -326,6 +388,11 @@ export const PricingSection: React.FC = () => {
         </div>
 
       </div>
+      <WaitlistModal 
+        isOpen={isWaitlistOpen} 
+        onClose={() => setIsWaitlistOpen(false)} 
+        tier={selectedTier} 
+      />
     </section>
   );
 };

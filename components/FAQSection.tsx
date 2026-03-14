@@ -69,7 +69,7 @@ const FAQS = [
           </div>
           <div>
             <div className="font-bold text-gray-900 text-sm">Average Setup Time</div>
-            <div className="text-xs text-gray-500 leading-snug">From purchase to fully operational. If you're not live in 60m, we extend support for free.</div>
+            <div className="text-xs text-gray-500 leading-snug">From joining to fully operational. If you're not live in 60m, we extend support for free.</div>
           </div>
         </motion.div>
 
@@ -237,7 +237,7 @@ const FAQS = [
     )
   },
   {
-    question: "Starter ($97) vs Pro ($247)?",
+    question: "Starter vs Pro System?",
     answer: (
       <div className="flex flex-col gap-4">
         <div className="flex gap-3">

@@ -6,6 +6,7 @@ const motion = motionBase as any;
 import { Monitor, Globe, Share2, Star, MoreHorizontal, ExternalLink, Lock, MousePointer2, ShieldCheck, Play, Check, Zap, X } from 'lucide-react';
 import { Button } from './ui/Button';
 import { CountdownTimer } from './CountdownTimer';
+import { WaitlistModal } from './WaitlistModal';
 
 interface HeroProps {
   onReady?: () => void;
@@ -53,8 +54,10 @@ const MaskedText: React.FC<{ children: React.ReactNode; className?: string; dela
 };
 
 export const Hero: React.FC<HeroProps> = ({ onReady }) => {
+  const isPreLaunch = true; // Toggle this for launch day
   const [stage, setStage] = useState(0);
   const [showCTA, setShowCTA] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -272,39 +275,41 @@ export const Hero: React.FC<HeroProps> = ({ onReady }) => {
                 animate="visible"
                 onAnimationComplete={() => setShowCTA(true)}
               >
-                {/* Part 1 */}
-                {"Velocity is not about working".split(" ").map((word, index) => (
-                  <motion.span key={`p1-${index}`} variants={wordVariants} className="inline-block">{word}</motion.span>
-                ))}
+                <>
+                  {/* Part 1 */}
+                  {"Velocity is not about working".split(" ").map((word, index) => (
+                    <motion.span key={`p1-${index}`} variants={wordVariants} className="inline-block">{word}</motion.span>
+                  ))}
 
-                {/* Grouped: faster & longer, */}
-                <motion.span variants={wordVariants} className="inline-block whitespace-nowrap">
-                  faster & longer,
-                </motion.span>
+                  {/* Grouped: faster & longer, */}
+                  <motion.span variants={wordVariants} className="inline-block whitespace-nowrap">
+                    faster & longer,
+                  </motion.span>
 
-                {/* Break for desktop to control flow, natural wrap on mobile */}
-                <div className="hidden md:block basis-full h-0" />
+                  {/* Break for desktop to control flow, natural wrap on mobile */}
+                  <div className="hidden md:block basis-full h-0" />
 
-                {/* Part 2 */}
-                {"rather it's about".split(" ").map((word, index) => (
-                  <motion.span key={`p2-${index}`} variants={wordVariants} className="inline-block">{word}</motion.span>
-                ))}
+                  {/* Part 2 */}
+                  {"rather it's about".split(" ").map((word, index) => (
+                    <motion.span key={`p2-${index}`} variants={wordVariants} className="inline-block">{word}</motion.span>
+                  ))}
 
-                {/* Part 3 - Highlight Grouped */}
-                <motion.span
-                  variants={wordVariants}
-                  className="inline-flex gap-x-1.5 md:gap-x-2.5 whitespace-nowrap"
-                >
-                  <span className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
-                    Tracking
-                  </span>
-                  <span className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
-                    &
-                  </span>
-                  <span className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
-                    Iteration.
-                  </span>
-                </motion.span>
+                  {/* Part 3 - Highlight Grouped */}
+                  <motion.span
+                    variants={wordVariants}
+                    className="inline-flex gap-x-1.5 md:gap-x-2.5 whitespace-nowrap"
+                  >
+                    <span className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
+                      Tracking
+                    </span>
+                    <span className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
+                      &
+                    </span>
+                    <span className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
+                      Iteration.
+                    </span>
+                  </motion.span>
+                </>
               </motion.div>
             </div>
 
@@ -329,9 +334,9 @@ export const Hero: React.FC<HeroProps> = ({ onReady }) => {
                         <div className="absolute inset-0 bg-gradient-to-br from-white via-transparent to-transparent opacity-50 pointer-events-none" />
                         <Button
                           onClick={scrollToPricing}
-                          className="w-full text-lg px-8 py-4 shadow-[0_8px_30px_-5px_rgba(255,117,31,0.4)] hover:shadow-[0_12px_40px_-5px_rgba(255,117,31,0.6)]"
+                          className="w-full text-lg px-8 py-4 shadow-[0_8px_30px_-5px_rgba(255,117,31,0.4)] hover:shadow-[0_12px_40_px_-5px_rgba(255,117,31,0.6)]"
                         >
-                          Get Pro Edition — $247
+                          {isPreLaunch ? "Join the Waitlist" : "Get Pro Edition — $247"}
                         </Button>
                         <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-[10px] font-bold uppercase tracking-widest text-gray-400">
                           <div className="flex items-center gap-1.5">
@@ -341,23 +346,18 @@ export const Hero: React.FC<HeroProps> = ({ onReady }) => {
                           <div className="w-1 h-1 rounded-full bg-gray-300" />
                           <div className="flex items-center gap-1.5 text-[#ff751f]">
                             <Zap className="w-3 h-3 fill-current" />
-                            <span>Price Increases in 72h</span>
+                            <span>Reserve Your Slot</span>
                           </div>
                         </div>
                       </div>
 
-                      {/* Urgency Zone (Right) */}
-                      <div className="bg-gray-100/50 rounded-[1.5rem] p-6 md:px-10 flex flex-col justify-center items-center border border-black/[0.03] min-w-[260px] relative">
-                        <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                          <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                          </span>
-                          Offer Expiring
+                        {/* Urgency Zone (Right) */}
+                        <div className="bg-gray-100/50 rounded-[1.5rem] p-6 md:px-10 flex flex-col justify-center items-center border border-black/[0.03] min-w-[260px]">
+                          <div className="pt-2">
+                            <CountdownTimer compact />
+                          </div>
+                          <div className="mt-4 text-[9px] text-gray-300 font-bold uppercase tracking-[0.2em]">Don't Miss Out</div>
                         </div>
-                        <CountdownTimer compact />
-                        <div className="absolute bottom-3 text-[9px] text-gray-300 font-bold uppercase tracking-[0.2em]">Don't Miss Out</div>
-                      </div>
                     </div>
                   </div>
 
@@ -523,6 +523,7 @@ export const Hero: React.FC<HeroProps> = ({ onReady }) => {
       <style>{`
         .perspective-1000 { perspective: 1000px; }
       `}</style>
+      <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} tier="Pro System" />
     </section>
   );
 };
