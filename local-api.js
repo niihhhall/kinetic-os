@@ -38,16 +38,33 @@ const SEED_DOCS = [
     "Key features include a master calendar view, real-time profit visibility, and a Notion free-plan ready architecture.",
     "We offer a 30-day money-back guarantee on all KineticOS purchases.",
     "Support is available via email, with priority 24h support for Pro and VIP members.",
-    "KineticOS was built by UNIK BUILDS to solve the problem of fragmented tools and administrative burnout for freelancers."
+    "KineticOS was built by UNIK BUILDS by Nikhil Mishra to solve fragmented tools for freelancers.",
+    // Expert Knowledge Chunks
+    "Business HQ: Strategy, Brand foundations (USP, ICP), Goal-setting. Includes a 6-phase, 23-activity Business Launchpad.",
+    "Productivity HQ: Tasks, Calendars, Recurring workflows, and the 'Reset Button' for one-click weekly resets.",
+    "Social Media HQ: Content Matrix with 13 platform templates and IDEA generation pipeline.",
+    "Marketing HQ: Non-social strategy: Portfolios, Ad campaigns, Lead magnets, and Collaborations.",
+    "Clients & Projects HQ: Full CRM (Lead capture to Invoicing) and Project Command Center (all data in one view).",
+    "Finance HQ: Automated Profits computing Monthly & Annual profitability from transaction logs.",
+    "Objection (Notion): 'If you can use Google Docs, you can use this.' The Launchpad guides you by building your business.",
+    "Objection (Tool switching): KineticOS replaces CRM, Content, and Finance in one purchase vs monthly fees for Asana/ClickUp.",
+    "Lead Qualification: Target Solo Freelancers ($50K-$120K revenue) and small agencies (2-6 people, $200K+ revenue)."
 ];
 
 async function seedDatabase(supabase, hf) {
     try {
-        const { count } = await supabase.from('documents').select('*', { count: 'exact', head: true });
-        if (count > 0) return;
-
-        console.log('🌱 Seeding initial knowledge base...');
+        console.log('🌱 Checking knowledge base sync...');
         for (const text of SEED_DOCS) {
+            // Check if this specific content already exists
+            const { data: existing } = await supabase
+                .from('documents')
+                .select('id')
+                .eq('content', text)
+                .maybeSingle();
+
+            if (existing) continue;
+
+            console.log(`📡 Syncing new knowledge: "${text.substring(0, 40)}..."`);
             const { data: embedding } = await hf.featureExtraction({
                 model: 'sentence-transformers/all-MiniLM-L6-v2',
                 inputs: text,
@@ -58,7 +75,7 @@ async function seedDatabase(supabase, hf) {
                 embedding: Array.from(embedding)
             });
         }
-        console.log('✅ Seeding complete.');
+        console.log('✅ Knowledge sync complete.');
     } catch (err) {
         console.warn('⚠️ Seeding failed (check if Supabase table is created):', err.message);
     }
@@ -70,6 +87,7 @@ app.post('/api/create-checkout-session', (req, res) => handleApi(req, res, './ap
 app.post('/api/support', (req, res) => handleApi(req, res, './api/support.js'));
 app.post('/api/webhook', (req, res) => handleApi(req, res, './api/webhook.js'));
 app.post('/api/chat', (req, res) => handleApi(req, res, './api/chat.js'));
+app.post('/api/join-waitlist', (req, res) => handleApi(req, res, './api/join-waitlist.js'));
 
 app.listen(port, async () => {
     console.log(`Local API server running at http://localhost:${port}`);

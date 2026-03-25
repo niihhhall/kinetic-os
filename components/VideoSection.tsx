@@ -16,7 +16,11 @@ const TIMELINE_SEGMENTS = [
   { time: "1:15", label: "Marketing Attribution" },
 ];
 
-export const VideoSection: React.FC = () => {
+interface VideoSectionProps {
+  openWaitlist: () => void;
+}
+
+export const VideoSection: React.FC<VideoSectionProps> = ({ openWaitlist }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
@@ -199,7 +203,7 @@ export const VideoSection: React.FC = () => {
 
         {/* CTA */}
         <div className="flex justify-center relative z-10">
-           <Button className="w-full md:w-auto text-xl px-16 py-6" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+           <Button className="w-full md:w-auto text-xl px-16 py-6" onClick={() => openWaitlist()}>
              Join the Waitlist
            </Button>
         </div>

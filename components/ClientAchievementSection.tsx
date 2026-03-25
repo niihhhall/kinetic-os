@@ -89,7 +89,7 @@ export const AnimatedNumber: React.FC<{ value: string; className?: string }> = (
   return <span ref={nodeRef} className={className}>{initialText}</span>;
 };
 
-export const ClientAchievementSection: React.FC = () => {
+export const ClientAchievementSection: React.FC<{ openWaitlist: () => void }> = ({ openWaitlist }) => {
   return (
     <section className="bg-brand-bg pt-16 md:pt-24 pb-16 md:pb-24 px-6 md:px-12 lg:px-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -221,10 +221,7 @@ export const ClientAchievementSection: React.FC = () => {
                         <div className="flex items-baseline gap-2">
                            <span className="text-5xl md:text-6xl font-bold tracking-tighter blur-[20px] select-none">$247</span>
                         </div>
-                        <div className="mt-2 inline-flex items-center gap-2 text-white/60 text-sm">
-                            <span className="line-through decoration-white/50">$125/month</span>
-                            <span className="bg-white/20 px-2 py-0.5 rounded text-xs font-bold text-white">Forever</span>
-                        </div>
+                        {/* Hidden $125/month Forever text */}
                     </div>
 
                     <div className="mt-auto space-y-4">
@@ -246,7 +243,7 @@ export const ClientAchievementSection: React.FC = () => {
                     </div>
                     
                     <button 
-                        onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                        onClick={() => openWaitlist()}
                         className="mt-8 w-full py-4 bg-black/20 hover:bg-black/30 text-white rounded-xl font-bold text-sm uppercase tracking-widest transition-colors flex items-center justify-center gap-2 group/btn"
                     >
                         Start Saving

@@ -11,7 +11,7 @@ export const ChatWidget: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'assistant', content: 'Hi! I\'m Albert. How can I help you with KineticOS today?' }
+        { role: 'assistant', content: "I'm Nikhil's Systems Architect. Most freelancers run their business from 10 different apps—I'm here to show you how KineticOS replaces them with one high-velocity system. What's your biggest tool-switching pain right now?" }
     ]);
     const [isLoading, setIsLoading] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -68,8 +68,8 @@ export const ChatWidget: React.FC = () => {
                                     <Bot className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-sm">Albert</h3>
-                                    <p className="text-[10px] opacity-80 uppercase tracking-widest font-bold">KineticOS AI</p>
+                                    <h3 className="font-bold text-sm">Systems Architect</h3>
+                                    <p className="text-[10px] opacity-80 uppercase tracking-widest font-bold">Founder's Right Hand</p>
                                 </div>
                             </div>
                             <button
@@ -114,7 +114,7 @@ export const ChatWidget: React.FC = () => {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                                placeholder="Ask Albert anything..."
+                                placeholder="Ask the Systems Architect..."
                                 className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-orange/20"
                             />
                             <button

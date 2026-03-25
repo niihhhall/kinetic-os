@@ -7,7 +7,6 @@ import { Check, Zap, RefreshCw, Lock, Database, Loader2, Star, ShieldCheck } fro
 import { Button } from './ui/Button';
 import { CountdownTimer } from './CountdownTimer';
 import { PRICING_TIERS } from '../constants';
-import { WaitlistModal } from './WaitlistModal';
 
 const TransformationItem = ({ icon, text }: { icon: string, text: string }) => (
   <div className="flex items-start gap-3 text-sm text-gray-600">
@@ -28,11 +27,13 @@ const FeatureItem: React.FC<{ text: string; subtext?: string; highlight?: boolea
   </div>
 );
 
-export const PricingSection: React.FC = () => {
+interface PricingSectionProps {
+  openWaitlist: (tier: string) => void;
+}
+
+export const PricingSection: React.FC<PricingSectionProps> = ({ openWaitlist }) => {
   const isPreLaunch = true; // Toggle this for launch day
   const [loading, setLoading] = useState<string | null>(null);
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<string | undefined>();
 
   const handleRazorpayCheckout = async (tier: any) => {
     setLoading(tier.name);
@@ -93,8 +94,7 @@ export const PricingSection: React.FC = () => {
 
   const handleCheckout = async (tier: any) => {
     if (isPreLaunch) {
-      setSelectedTier(tier.name);
-      setIsWaitlistOpen(true);
+      openWaitlist(tier.name);
       return;
     }
     // Defaulting to Razorpay as per request
@@ -391,11 +391,6 @@ export const PricingSection: React.FC = () => {
         </div>
 
       </div>
-      <WaitlistModal 
-        isOpen={isWaitlistOpen} 
-        onClose={() => setIsWaitlistOpen(false)} 
-        tier={selectedTier} 
-      />
     </section>
   );
 };

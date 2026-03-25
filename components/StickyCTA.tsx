@@ -27,9 +27,10 @@ const AsteriskLogo = ({ className = "w-4 h-4" }: { className?: string }) => (
 
 interface StickyCTAProps {
   onToggleMenu?: () => void;
+  openWaitlist: () => void;
 }
 
-export const StickyCTA: React.FC<StickyCTAProps> = ({ onToggleMenu }) => {
+export const StickyCTA: React.FC<StickyCTAProps> = ({ onToggleMenu, openWaitlist }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [bottomOffset, setBottomOffset] = useState(24);
 
@@ -89,7 +90,7 @@ export const StickyCTA: React.FC<StickyCTAProps> = ({ onToggleMenu }) => {
             {/* Content Group (Logo + Text) */}
             <div 
               className="flex items-center gap-3 pl-1 md:pl-4 pr-1 md:pr-4 cursor-pointer group"
-              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => openWaitlist()}
             >
               <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3">
                 <span className="text-sm font-semibold text-brand-text flex items-center gap-2">
@@ -127,7 +128,7 @@ export const StickyCTA: React.FC<StickyCTAProps> = ({ onToggleMenu }) => {
             
             {/* Primary CTA Button (Right Aligned) */}
             <button 
-              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => openWaitlist()}
               className="bg-[#ff751f] hover:bg-[#e6641a] text-white text-xs font-bold px-5 py-3 md:px-4 md:py-2.5 rounded-full transition-colors flex items-center gap-1.5 shadow-lg shadow-brand-orange/20 active:scale-95"
             >
               <span>Join the Waitlist</span>

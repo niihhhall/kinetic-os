@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 // Shadow motion to bypass environment-specific type errors with framer-motion props
 import { motion as motionBase } from 'framer-motion';
 const motion = motionBase as any;
 import { AnimatedNumber } from './ClientAchievementSection';
-import { WaitlistModal } from './WaitlistModal';
 
 const TESTIMONIALS = [
   {
@@ -172,13 +171,13 @@ const MobileTestimonials = ({ items }: { items: typeof TESTIMONIALS }) => {
   );
 };
 
-export const TestimonialsSection: React.FC = () => {
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<string | undefined>();
+interface TestimonialsSectionProps {
+  openWaitlist: (tier?: string) => void;
+}
 
+export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ openWaitlist }) => {
   const handleWaitlistOpen = () => {
-    setSelectedTier("Pro Freelancer"); // Default to most popular tier
-    setIsWaitlistOpen(true);
+    openWaitlist("Pro Freelancer"); // Default to most popular tier
   };
 
   return (
@@ -260,11 +259,6 @@ export const TestimonialsSection: React.FC = () => {
           </button>
         </div>
       </div>
-      <WaitlistModal 
-        isOpen={isWaitlistOpen} 
-        onClose={() => setIsWaitlistOpen(false)} 
-        tier={selectedTier} 
-      />
     </section>
   );
 };

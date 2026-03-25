@@ -40,6 +40,7 @@ import { FeatureTickerSection } from './components/FeatureTickerSection';
 import { ClientAchievementSection } from './components/ClientAchievementSection';
 import { ComparisonMatrixSection } from './components/ComparisonMatrixSection';
 import { ChatWidget } from './components/ChatWidget';
+import { WaitlistModal } from './components/WaitlistModal';
 
 const AsteriskLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
   <motion.svg
@@ -84,6 +85,8 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [isIntroComplete, setIsIntroComplete] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+  const [waitlistTier, setWaitlistTier] = useState('Pro System');
 
   // Store Lenis instance in a ref to use it for programmatic scrolling
   const lenisRef = useRef<Lenis | null>(null);
@@ -214,6 +217,13 @@ function App() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
+  
+  const openWaitlist = (tier: any = 'Pro System') => {
+    // Defensive check to ensure tier is a string, not a MouseEvent
+    const tierValue = typeof tier === 'string' ? tier : 'Pro System';
+    setWaitlistTier(tierValue);
+    setIsWaitlistOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-brand-bg text-brand-text selection:bg-brand-orange/20 selection:text-brand-orange relative">
@@ -333,7 +343,7 @@ function App() {
                         className="flex overflow-hidden"
                       >
                         <button
-                          onClick={() => scrollToSection('pricing')}
+                          onClick={() => openWaitlist()}
                           className="flex items-center justify-center bg-[#ff751f] text-white px-6 py-2.5 rounded-full hover:bg-[#e6641a] transition-all active:scale-95 shadow-sm whitespace-nowrap"
                         >
                           <span className="text-[13px] font-bold tracking-tight">
@@ -429,6 +439,7 @@ function App() {
             setIsIntroComplete(true);
           }} 
           isIntroComplete={isIntroComplete}
+          openWaitlist={openWaitlist}
         />
 
         <AnimatePresence>
@@ -452,22 +463,22 @@ function App() {
 
               {/* Video Tour (Preview) */}
               <div id="video-tour" className="scroll-mt-40">
-                <VideoSection />
+                <VideoSection openWaitlist={openWaitlist} />
               </div>
 
               {/* User Reviews */}
               <div id="testimonials" className="scroll-mt-40">
-                <TestimonialsSection />
+                <TestimonialsSection openWaitlist={openWaitlist} />
               </div>
 
               {/* Visual Problem Solution Card (The Problem Section) */}
               <div id="problem" className="scroll-mt-40">
-                <VisualProblemSolution />
+                <VisualProblemSolution openWaitlist={openWaitlist} />
               </div>
 
               {/* Client Achievement Metrics (Impact Matrix) */}
               <div id="results" className="scroll-mt-40">
-                <ClientAchievementSection />
+                <ClientAchievementSection openWaitlist={openWaitlist} />
               </div>
 
               {/* Problem Awareness */}
@@ -477,7 +488,7 @@ function App() {
 
               {/* Transformations */}
               <div id="user-stories" className="scroll-mt-40">
-                <UserStoriesSection />
+                <UserStoriesSection openWaitlist={openWaitlist} />
               </div>
 
               {/* Solution Section */}
@@ -492,12 +503,12 @@ function App() {
 
               {/* Tale of Freelancers */}
               <div id="tale-of-freelancers" className="scroll-mt-40">
-                <Comparison />
+                <Comparison openWaitlist={openWaitlist} />
               </div>
 
               {/* Pricing */}
               <div id="pricing" className="scroll-mt-40">
-                <PricingSection />
+                <PricingSection openWaitlist={openWaitlist} />
               </div>
 
               {/* Post Purchase Steps */}
@@ -515,8 +526,13 @@ function App() {
       </main>
 
       {isIntroComplete && (
-        <StickyCTA onToggleMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
+        <StickyCTA onToggleMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)} openWaitlist={openWaitlist} />
       )}
+      <WaitlistModal 
+        isOpen={isWaitlistOpen} 
+        onClose={() => setIsWaitlistOpen(false)} 
+        tier={waitlistTier} 
+      />
       <AnimatePresence>
         {showNav && (
           <motion.div

@@ -5,7 +5,11 @@ import { motion as motionBase } from 'framer-motion';
 const motion = motionBase as any;
 import { X, Check, MousePointer2 } from 'lucide-react';
 
-export const Comparison: React.FC = () => {
+interface ComparisonProps {
+  openWaitlist?: (tierText?: string) => void;
+}
+
+export const Comparison: React.FC<ComparisonProps> = ({ openWaitlist }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -186,7 +190,7 @@ export const Comparison: React.FC = () => {
               </ul>
 
               <button 
-                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => openWaitlist ? openWaitlist("Pro System") : document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                 className="w-full py-4 bg-[#ff751f] hover:bg-[#e6641a] text-white rounded-xl font-bold text-sm uppercase tracking-widest shadow-lg shadow-brand-orange/20 transition-all flex items-center justify-center gap-3 group/btn mt-auto"
               >
                 Join the Top 1%

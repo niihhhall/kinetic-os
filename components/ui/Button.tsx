@@ -21,7 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   
   const variants = {
     // Primary: Brand Orange background (#ff751f), White text.
-    primary: "bg-[#ff751f] text-white shadow-[0_4px_15px_-5px_rgba(255,117,31,0.4)] bg-[#e6641a] hover:shadow-[0_8px_20px_-5px_rgba(255,117,31,0.5)]",
+    primary: "bg-[#ff751f] text-white shadow-[0_4px_15px_-5px_rgba(255,117,31,0.4)] hover:bg-[#e6641a] hover:shadow-[0_8px_20px_-5px_rgba(255,117,31,0.5)]",
     
     // Secondary: Light Yellow background (#fffff5), Dark Text
     secondary: "bg-[#fffff5] text-[#292929] hover:bg-white border border-black/5 shadow-sm hover:shadow-md",

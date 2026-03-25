@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, ArrowRight, Loader2, Linkedin, Twitter, CheckCircle2, Copy, Share2, Star, User } from 'lucide-react';
+import { X, Mail, ArrowRight, Loader2, Linkedin, Twitter, CheckCircle2, Copy, Share2, Star, User, Clock } from 'lucide-react';
 import { usePostHog } from '@posthog/react';
 import { Button } from './ui/Button';
 
@@ -95,76 +95,102 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
             className="relative w-full max-w-xl bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/20"
           >
             {/* Header branding */}
-            <div className="bg-[#ff751f] p-6 md:p-8 text-white relative">
+            <div className="bg-brand-bg p-8 md:p-10 text-brand-text relative border-b border-gray-100">
               <button 
                 onClick={onClose}
-                className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full hover:bg-white/10 transition-colors"
+                className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600"
               >
                 <X className="w-5 h-5" />
               </button>
               
-              <div className="flex flex-col items-center text-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 overflow-hidden shadow-inner">
-                  <img src="https://kineticos.store/favicon.png" alt="" className="w-7 h-7 object-contain" />
+              <div className="flex flex-col items-center text-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center border border-brand-orange/20 shadow-sm relative group">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <svg 
+                      viewBox="0 0 100 100" 
+                      fill="none" 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      className="w-8 h-8 text-[#ff751f]"
+                    >
+                      <rect x="41" y="10" width="18" height="80" rx="4" fill="currentColor" />
+                      <rect x="41" y="10" width="18" height="80" rx="4" fill="currentColor" transform="rotate(60 50 50)" />
+                      <rect x="41" y="10" width="18" height="80" rx="4" fill="currentColor" transform="rotate(120 50 50)" />
+                    </svg>
+                  </motion.div>
                 </div>
-                <h2 className="text-xl md:text-2xl font-bold tracking-tight">KineticOS Waitlist</h2>
+                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">KineticOS Waitlist</h2>
               </div>
               
               {!success ? (
                 <div className="flex justify-center">
-                  <p className="text-white/80 text-xs md:text-sm leading-relaxed max-w-sm text-center">
-                    Join the exclusive list of operators scaling their business without the chaos. You're joining for the <span className="text-white font-bold">{tier}</span> tier.
+                  <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-sm text-center font-medium">
+                    Join the exclusive list of operators scaling their business without the chaos. You're joining for the <span className="text-[#ff751f] font-bold">{tier}</span> tier.
                   </p>
                 </div>
               ) : (
-                <div className="flex justify-center">
-                  <p className="text-white/80 text-xs md:text-sm leading-relaxed max-w-sm text-center">
-                    You're in! Welcome to the future of high-velocity operations.
+                <div className="flex justify-center text-center">
+                  <p className="text-[#ff751f] font-bold text-sm md:text-base tracking-tight leading-relaxed">
+                    You're in!<br />
+                    Welcome to the future of high-velocity operations.
                   </p>
                 </div>
               )  }
             </div>
 
-            <div className="p-6 md:p-10 bg-white">
+            <div className="p-8 md:p-12 bg-white relative">
               {!success ? (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
-                    <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <form onSubmit={handleSubmit} className="space-y-7">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-end px-1">
+                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">Full Name</label>
+                    </div>
+                    <div className="relative group/input">
+                      <div className="absolute inset-y-4 left-4 flex items-center pr-4 border-r border-gray-100 group-focus-within/input:border-[#ff751f]/30 transition-colors">
+                        <User className="w-5 h-5 text-gray-400 group-focus-within/input:text-[#ff751f] transition-colors" />
+                      </div>
                       <input
                         required
                         type="text"
                         placeholder="John Doe"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-[#ff751f] transition-all outline-none font-medium text-gray-900"
+                        className="w-full pl-16 pr-4 py-5 rounded-2xl border border-gray-100 bg-gray-50/30 focus:bg-white focus:border-[#ff751f] focus:ring-8 focus:ring-[#ff751f]/5 transition-all outline-none font-semibold text-gray-900 placeholder:text-gray-300 shadow-sm"
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Work Email</label>
-                    <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-end px-1">
+                      <label className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">Work Email</label>
+                    </div>
+                    <div className="relative group/input">
+                      <div className="absolute inset-y-4 left-4 flex items-center pr-4 border-r border-gray-100 group-focus-within/input:border-[#ff751f]/30 transition-colors">
+                        <Mail className="w-5 h-5 text-gray-400 group-focus-within/input:text-[#ff751f] transition-colors" />
+                      </div>
                       <input
                         required
                         type="email"
                         placeholder="you@company.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:bg-white focus:border-[#ff751f] transition-all outline-none font-medium text-gray-900"
+                        className="w-full pl-16 pr-4 py-5 rounded-2xl border border-gray-100 bg-gray-50/30 focus:bg-white focus:border-[#ff751f] focus:ring-8 focus:ring-[#ff751f]/5 transition-all outline-none font-semibold text-gray-900 placeholder:text-gray-300 shadow-sm"
                       />
                     </div>
                   </div>
 
+                  <div className="pt-4">
                     <Button
                       type="submit"
                       fullWidth
                       disabled={loading}
-                      className="py-4 text-lg shadow-lg shadow-orange-500/20"
+                      className="py-5 text-lg shadow-xl shadow-[#ff751f]/25 rounded-2xl font-bold uppercase tracking-widest"
                     >
                       {loading ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : "Reserve My Spot"}
                     </Button>
+                  </div>
 
                   <div className="pt-4 border-t border-gray-50 flex flex-col items-center gap-4">
                     <p className="text-xs text-gray-400 font-medium">Follow the development</p>
@@ -184,20 +210,31 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                     <CheckCircle2 className="w-10 h-10 text-green-500" />
                   </div>
                   
-                  <div className="space-y-3">
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900">Waitlist Position: #{waitlistData?.position}</h3>
-                    <div className="p-4 rounded-xl bg-brand-bg border border-brand-orange/10 text-left relative overflow-hidden">
-                      <div className="absolute top-0 right-0 p-2 opacity-10">
-                         <Star className="w-8 h-8 text-brand-orange" />
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Hey {fullName}! 👋</h3>
+                        <p className="text-gray-500 font-medium leading-relaxed">
+                          Thank you for joining our journey.<br />
+                          We're excited to have you onboard!
+                        </p>
+                    </div>
+
+                    <div className="p-5 rounded-2xl bg-brand-bg border border-brand-orange/10 text-left relative overflow-hidden shadow-sm">
+                      <div className="absolute top-0 right-0 p-2 opacity-5">
+                         <Star className="w-10 h-10 text-brand-orange" />
                       </div>
-                      <p className="text-sm font-bold text-brand-text mb-1">A message from Nikhil:</p>
-                      <p className="text-xs text-gray-500 leading-relaxed italic">
-                        "Welcome to KineticOS! I built this system to help operators like you scale without the chaos. You're now on the list to get early access and exclusive pre-launch bonuses. I'll reach out personally when your spot opens up."
+                      <p className="text-[11px] font-bold text-brand-orange uppercase tracking-[0.2em] mb-3">A message from Founder</p>
+                      <p className="text-[13.5px] text-gray-700 leading-relaxed font-heading">
+                        "Welcome to KineticOS! I built this system to help operators like you scale without the chaos. You're now on the list to get early access and exclusive pre-launch bonuses within the next 24-48 hours. I'll reach out personally when your spot opens up."
                       </p>
                     </div>
-                    <p className="text-gray-500 text-xs md:text-sm max-w-xs mx-auto">
-                      Want to skip the line? Refer 2 friends and move up the list instantly.
-                    </p>
+                    
+                    <div className="pt-2">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                            <Clock className="w-3 h-3" />
+                            Next Update: Coming Soon
+                        </div>
+                    </div>
                   </div>
 
                   <div className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-between gap-4">

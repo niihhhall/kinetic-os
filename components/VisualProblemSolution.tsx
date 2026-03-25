@@ -24,7 +24,11 @@ const AsteriskLogo = ({ className = "w-6 h-6" }: { className?: string }) => (
   </motion.svg>
 );
 
-export const VisualProblemSolution: React.FC = () => {
+interface VisualProblemSolutionProps {
+  openWaitlist: (tier?: string) => void;
+}
+
+export const VisualProblemSolution: React.FC<VisualProblemSolutionProps> = ({ openWaitlist }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -82,7 +86,7 @@ export const VisualProblemSolution: React.FC = () => {
           <div className="relative z-10">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-12 border-b border-gray-100 pb-8">
                 <div className="max-w-2xl">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-500 text-xs font-bold uppercase tracking-widest mb-4 border border-red-100">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-500 text-xs font-bold uppercase tracking-widest mb-4 border border-red-100/50">
                         <AlertCircle className="w-3.5 h-3.5" />
                         <span>The Chaos State</span>
                     </div>
@@ -196,7 +200,7 @@ export const VisualProblemSolution: React.FC = () => {
                 Recovered over $450K in billable hours for independent professionals.
               </p>
               <button 
-                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => openWaitlist("Pro Freelancer")}
                 className="flex items-center gap-2 text-white font-bold uppercase tracking-widest text-xs hover:gap-3 transition-all"
               >
                 Get The System <ArrowRight className="w-4 h-4" />

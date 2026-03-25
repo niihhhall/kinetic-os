@@ -41,7 +41,7 @@ const STORIES = [
   }
 ];
 
-const FlipCard = ({ story, index }: { story: any, index: number }) => {
+const FlipCard = ({ story, index, openWaitlist }: { story: any, index: number, openWaitlist: (tier?: string) => void }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
@@ -108,7 +108,7 @@ const FlipCard = ({ story, index }: { story: any, index: number }) => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+                openWaitlist("Pro Freelancer");
               }}
               className="text-[#ff751f] font-bold text-xs uppercase tracking-[0.2em] border-b border-brand-orange/20 hover:border-brand-orange transition-all pb-1 hover:gap-2"
             >
@@ -121,7 +121,11 @@ const FlipCard = ({ story, index }: { story: any, index: number }) => {
   );
 };
 
-export const UserStoriesSection: React.FC = () => {
+interface UserStoriesSectionProps {
+  openWaitlist: (tier?: string) => void;
+}
+
+export const UserStoriesSection: React.FC<UserStoriesSectionProps> = ({ openWaitlist }) => {
   return (
     <section className="pt-16 md:pt-24 pb-16 md:pb-24 bg-brand-bg relative overflow-hidden px-6 md:px-12 lg:px-24">
       <div className="max-w-7xl mx-auto">
@@ -165,7 +169,7 @@ export const UserStoriesSection: React.FC = () => {
               transition={{ delay: i * 0.15, type: "spring", stiffness: 70, damping: 20 }}
               viewport={{ once: true, margin: "-100px" }}
             >
-              <FlipCard story={story} index={i} />
+              <FlipCard story={story} index={i} openWaitlist={openWaitlist} />
             </motion.div>
           ))}
         </div>

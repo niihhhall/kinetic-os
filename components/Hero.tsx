@@ -11,6 +11,7 @@ import { WaitlistModal } from './WaitlistModal';
 interface HeroProps {
   onReady?: () => void;
   isIntroComplete?: boolean;
+  openWaitlist: (tier: string) => void;
 }
 
 const AsteriskLogo = ({ className = "w-12 h-12" }: { className?: string }) => (
@@ -54,11 +55,10 @@ const MaskedText: React.FC<{ children: React.ReactNode; className?: string; dela
   );
 };
 
-export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete }) => {
+export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete, openWaitlist }) => {
   const isPreLaunch = true; // Toggle this for launch day
   const [stage, setStage] = useState(0);
   const [showCTA, setShowCTA] = useState(false);
-  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [isInteracting, setIsInteracting] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -334,7 +334,7 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete }) => {
                       <div className="bg-white/50 rounded-[1.5rem] p-6 md:p-8 flex-[1.6] flex flex-col justify-center items-center border border-black/[0.03] shadow-inner relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-white via-transparent to-transparent opacity-50 pointer-events-none" />
                         <Button
-                          onClick={scrollToPricing}
+                          onClick={() => openWaitlist('Pro System')}
                           className="w-full text-lg px-8 py-4 shadow-[0_8px_30px_-5px_rgba(255,117,31,0.4)] hover:shadow-[0_12px_40_px_-5px_rgba(255,117,31,0.6)]"
                         >
                           {isPreLaunch ? "Join the Waitlist" : "Get Pro Edition — $247"}
@@ -524,7 +524,6 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete }) => {
       <style>{`
         .perspective-1000 { perspective: 1000px; }
       `}</style>
-      <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} tier="Pro System" />
     </section>
   );
 };
