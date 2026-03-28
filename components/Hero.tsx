@@ -146,15 +146,28 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete, openWaitli
     },
   };
 
-  const wordVariants = {
+  const wordVariantsFast = {
+    hidden: { opacity: 0, y: 15, filter: "blur(4px)" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.4, // Fast setup
+        ease: [0.2, 0.65, 0.3, 0.9],
+      },
+    },
+  };
+
+  const wordVariantsSlow = {
     hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
     visible: {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       transition: {
-        duration: 0.6,
-        ease: [0.2, 0.65, 0.3, 0.9], // Dramatic smooth ease
+        duration: 0.8, // Slow emphasis for final words
+        ease: [0.2, 0.65, 0.3, 0.9],
       },
     },
   };
@@ -170,31 +183,28 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete, openWaitli
       <div className="max-w-7xl mx-auto w-full flex flex-col items-center text-center relative z-10">
 
         {/* Intro Animation Wrapper - Enforce min-height to prevent layout jumps */}
-        <div className={`relative flex flex-col items-center justify-center transition-all duration-700 w-full ${stage >= 4 ? 'mb-8 min-h-[auto]' : 'min-h-[50vh]'}`}>
+        <div className={`relative flex flex-col items-center justify-center transition-all duration-700 w-full ${stage >= 4 ? 'mb-8 min-h-[auto]' : 'min-h-[400px] sm:min-h-[500px]'}`}>
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="popLayout">
             {stage < 3 && (
-              <div className="absolute inset-0 flex items-center justify-center px-0">
-                <MaskedText key={stage} className="text-center w-full">
-                  <h1
-                    className="font-heading font-medium text-gray-900 text-center whitespace-nowrap w-full px-0 tracking-[-0.04em] leading-[0.9]"
-                    style={{ fontSize: 'clamp(20px, 6vw, 90px)' }}
-                  >
-                    <span className="opacity-90">{headlines[stage].text}</span>
-                    <span className="text-[#ff751f] font-bold inline-block relative ml-1.5 sm:ml-2">
-                      {headlines[stage].highlight}
-                      {/* Refined underline decoration */}
-                                  {/* Refined underline decoration - Centered alignment */}
-                                  <motion.span 
-                                    initial={{ scaleX: 0 }}
-                                    animate={{ scaleX: 1 }}
-                                    transition={{ duration: 0.8, delay: 0.2, ease: "circOut" }}
-                                    className="absolute bottom-1 md:bottom-2 left-0 right-0 h-[3px] md:h-[6px] bg-[#ff751f]/20 rounded-full origin-center"
-                                  />
-                    </span>
-                  </h1>
-                </MaskedText>
-              </div>
+              <MaskedText key={stage} className="text-center w-full">
+                <h1
+                  className="font-heading font-medium text-gray-900 text-center whitespace-nowrap w-full px-0 tracking-[-0.04em] leading-[0.9]"
+                  style={{ fontSize: 'clamp(20px, 6vw, 90px)' }}
+                >
+                  <span className="opacity-90">{headlines[stage].text}</span>
+                  <span className="text-[#ff751f] font-bold inline-block relative ml-1.5 sm:ml-2">
+                    {headlines[stage].highlight}
+                    {/* Refined underline decoration - Centered alignment */}
+                    <motion.span 
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.8, delay: 0.2, ease: "circOut" }}
+                      className="absolute bottom-1 md:bottom-2 left-0 right-0 h-[3px] md:h-[6px] bg-[#ff751f]/20 rounded-full origin-center"
+                    />
+                  </span>
+                </h1>
+              </MaskedText>
             )}
           </AnimatePresence>
 
@@ -206,21 +216,42 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete, openWaitli
                 animate={{ opacity: 1 }}
                 className="flex flex-col items-center justify-center z-20"
               >
+                {/* Impact Glow Burst for the Logo Slam */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={stage === 4 ? { 
+                    opacity: [0, 0.4, 0], 
+                    scale: [0.8, 1.8, 2.2],
+                    filter: ["blur(40px)", "blur(120px)", "blur(180px)"]
+                  } : {}}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  className="absolute inset-0 bg-[#ff751f]/20 rounded-full pointer-events-none -z-10"
+                />
+
                 {/* "Unik Builds Presents" - Cinematic Curtain Raiser */}
                 {/* Improved typography: Smaller size, wider tracking for 'movie trailer' feel */}
                 <motion.div
-                  initial={{ opacity: 0, y: 10, letterSpacing: '0em', filter: 'blur(4px)' }}
+                  initial={{ opacity: 0, scale: 1.2, letterSpacing: '0.1em', filter: 'blur(15px)' }}
                   animate={{
                     opacity: 1,
-                    y: 0,
+                    scale: 1,
                     letterSpacing: '0.4em', // Very wide tracking
                     filter: 'blur(0px)'
                   }}
-                  transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
                   className="font-bold text-gray-400 text-[9px] md:text-[11px] uppercase mb-8 flex items-center justify-center gap-4 text-center"
                 >
                   <span className="w-8 h-px bg-gradient-to-r from-transparent to-gray-300"></span>
-                  <span>Hence, <span className="text-[#ff751f]">UNIK BUILDS</span> presents</span>
+                  <span className="inline-block relative">
+                    Hence, <span className="text-[#ff751f] relative inline-block">UNIK BUILDS</span> presents
+                    {/* Subtle underglow during focus */}
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: [0, 0.4, 0] }}
+                      transition={{ duration: 1.6, times: [0, 0.5, 1] }}
+                      className="absolute inset-0 bg-brand-orange blur-xl -z-10"
+                    />
+                  </span>
                   <span className="w-8 h-px bg-gradient-to-l from-transparent to-gray-300"></span>
                 </motion.div>
 
@@ -283,34 +314,34 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete, openWaitli
                 animate="visible"
               >
                 <>
-                  {/* Part 1 */}
+                  {/* Part 1 - Fast */}
                   {"Velocity is not about working".split(" ").map((word, index) => (
-                    <motion.span key={`p1-${index}`} variants={wordVariants} className="inline-block">{word}</motion.span>
+                    <motion.span key={`p1-${index}`} variants={wordVariantsFast} className="inline-block">{word}</motion.span>
                   ))}
 
-                  {/* Grouped: faster & longer, */}
-                  <motion.span variants={wordVariants} className="inline-block whitespace-nowrap">
+                  {/* Grouped: faster & longer, - Fast */}
+                  <motion.span variants={wordVariantsFast} className="inline-block whitespace-nowrap">
                     faster & longer,
                   </motion.span>
 
-                  {/* Break for desktop to control flow, natural wrap on mobile */}
+                  {/* Break for desktop to control flow */}
                   <div className="hidden md:block basis-full h-0" />
 
-                  {/* Part 2 */}
+                  {/* Part 2 - Slower setup */}
                   {"rather it's about".split(" ").map((word, index) => (
-                    <motion.span key={`p2-${index}`} variants={wordVariants} className="inline-block">{word}</motion.span>
+                    <motion.span key={`p2-${index}`} variants={wordVariantsFast} className="inline-block">{word}</motion.span>
                   ))}
 
-                  {/* Part 3 - Highlight Grouped */}
-                  <motion.span variants={wordVariants} className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
+                  {/* Part 3 - High Emphasis (Slow) */}
+                  <motion.span variants={wordVariantsSlow} className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
                     Tracking
                   </motion.span>
-                  <motion.span variants={wordVariants} className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
+                  <motion.span variants={wordVariantsSlow} className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20">
                     &
                   </motion.span>
                   <motion.span 
                     key="iteration-word"
-                    variants={wordVariants}
+                    variants={wordVariantsSlow}
                     onAnimationComplete={() => setShowCTA(true)}
                     className="font-semibold text-[#ff751f] border-b-[2px] border-[#ff751f]/20"
                   >
@@ -325,7 +356,7 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete, openWaitli
                 <motion.div
                   initial={{ opacity: 0, y: 30, scale: 0.98, filter: "blur(15px)" }}
                   animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                  transition={{ duration: 1.2, ease: "easeOut", delay: 1.2 }}
+                  transition={{ duration: 1.0, ease: "easeOut", delay: 0.6 }}
                   className="flex flex-col items-center gap-10 mb-20 w-full max-w-4xl px-4"
                 >
                   {/* Revised Floating Dock CTA */}
@@ -395,7 +426,7 @@ export const Hero: React.FC<HeroProps> = ({ onReady, isIntroComplete, openWaitli
                   initial={{ opacity: 0, y: 80, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                  transition={{ type: "spring", stiffness: 60, damping: 20, delay: 1.5 }}
+                  transition={{ type: "spring", stiffness: 60, damping: 20, delay: 0.8 }}
                   className="relative w-full max-w-[1100px] mx-auto mb-20 px-2 sm:px-4 md:px-0 perspective-1000"
                 >
                   {/* Ambient Glow */}
