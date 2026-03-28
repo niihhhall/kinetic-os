@@ -438,7 +438,6 @@ function App() {
             setShowNav(true);
             setIsIntroComplete(true);
           }} 
-          isIntroComplete={isIntroComplete}
           openWaitlist={openWaitlist}
         />
 
