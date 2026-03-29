@@ -90,7 +90,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
           
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: success ? 0.8 : 1, y: 0 }}
+            animate={{ opacity: 1, scale: 0.75, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className={`relative w-full ${success ? 'max-w-sm' : 'max-w-md'} bg-white rounded-[1.75rem] md:rounded-[2rem] overflow-hidden shadow-2xl border border-white/20 transition-all duration-300`}
           >
