@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, ArrowRight, Loader2, Linkedin, Twitter, CheckCircle2, Copy, Share2, Star, User, Clock } from 'lucide-react';
+import { X, Mail, ArrowRight, Loader2, Linkedin, Twitter, Instagram, CheckCircle2, Copy, Share2, Star, User, Clock } from 'lucide-react';
 import { usePostHog } from '@posthog/react';
 import { Button } from './ui/Button';
 
@@ -90,12 +90,12 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
           
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            animate={{ opacity: 1, scale: success ? 0.75 : 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-xl bg-white rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/20"
+            className={`relative w-full ${success ? 'max-w-md' : 'max-w-lg'} bg-white rounded-[1.75rem] md:rounded-[2rem] overflow-hidden shadow-2xl border border-white/20 transition-all duration-300`}
           >
             {/* Header branding */}
-            <div className="bg-brand-bg p-8 md:p-10 text-brand-text relative border-b border-gray-100">
+            <div className="bg-brand-bg p-6 md:p-8 text-brand-text relative border-b border-gray-100">
               <button 
                 onClick={onClose}
                 className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600"
@@ -103,8 +103,8 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                 <X className="w-5 h-5" />
               </button>
               
-              <div className="flex flex-col items-center text-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center border border-brand-orange/20 shadow-sm relative group">
+              <div className="flex flex-col items-center text-center gap-3 mb-5">
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center border border-brand-orange/20 shadow-sm relative group">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -121,18 +121,18 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                     </svg>
                   </motion.div>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">KineticOS Waitlist</h2>
+                <h2 className="text-xl md:text-2xl font-bold tracking-tight text-gray-900">KineticOS Waitlist</h2>
               </div>
               
               {!success ? (
                 <div className="flex justify-center">
-                  <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-sm text-center font-medium">
+                  <p className="text-gray-500 text-[13px] md:text-sm leading-relaxed max-w-sm text-center font-medium">
                     Join the exclusive list of operators scaling their business without the chaos. You're joining for the <span className="text-[#ff751f] font-bold">{tier}</span> tier.
                   </p>
                 </div>
               ) : (
                 <div className="flex justify-center text-center">
-                  <p className="text-[#ff751f] font-bold text-sm md:text-base tracking-tight leading-relaxed">
+                  <p className="text-[#ff751f] font-bold text-[12px] md:text-[13px] tracking-tight leading-relaxed">
                     You're in!<br />
                     Welcome to the future of high-velocity operations.
                   </p>
@@ -140,9 +140,9 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
               )  }
             </div>
 
-            <div className="p-8 md:p-12 bg-white relative">
+            <div className="p-6 md:p-10 bg-white relative">
               {!success ? (
-                <form onSubmit={handleSubmit} className="space-y-7">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-3">
                     <div className="flex justify-between items-end px-1">
                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em]">Full Name</label>
@@ -157,7 +157,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                         placeholder="John Doe"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        className="w-full pl-16 pr-4 py-5 rounded-2xl border border-gray-100 bg-gray-50/30 focus:bg-white focus:border-[#ff751f] focus:ring-8 focus:ring-[#ff751f]/5 transition-all outline-none font-semibold text-gray-900 placeholder:text-gray-300 shadow-sm"
+                        className="w-full pl-16 pr-4 py-4 rounded-2xl border border-gray-100 bg-gray-50/30 focus:bg-white focus:border-[#ff751f] focus:ring-8 focus:ring-[#ff751f]/5 transition-all outline-none font-semibold text-gray-900 placeholder:text-gray-300 shadow-sm"
                       />
                     </div>
                   </div>
@@ -176,7 +176,7 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                         placeholder="you@company.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full pl-16 pr-4 py-5 rounded-2xl border border-gray-100 bg-gray-50/30 focus:bg-white focus:border-[#ff751f] focus:ring-8 focus:ring-[#ff751f]/5 transition-all outline-none font-semibold text-gray-900 placeholder:text-gray-300 shadow-sm"
+                        className="w-full pl-16 pr-4 py-4 rounded-2xl border border-gray-100 bg-gray-50/30 focus:bg-white focus:border-[#ff751f] focus:ring-8 focus:ring-[#ff751f]/5 transition-all outline-none font-semibold text-gray-900 placeholder:text-gray-300 shadow-sm"
                       />
                     </div>
                   </div>
@@ -186,15 +186,18 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                       type="submit"
                       fullWidth
                       disabled={loading}
-                      className="py-5 text-lg shadow-xl shadow-[#ff751f]/25 rounded-2xl font-bold uppercase tracking-widest"
+                      className="py-4 text-base shadow-xl shadow-[#ff751f]/25 rounded-2xl font-bold uppercase tracking-widest"
                     >
-                      {loading ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : "Reserve My Spot"}
+                      {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : "Reserve My Spot"}
                     </Button>
                   </div>
 
                   <div className="pt-4 border-t border-gray-50 flex flex-col items-center gap-4">
-                    <p className="text-xs text-gray-400 font-medium">Follow the development</p>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Follow the Journey</p>
                     <div className="flex gap-4">
+                      <a href="https://www.instagram.com/unik.build/" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-pink-50 text-pink-600 hover:bg-pink-600 hover:text-white transition-all border border-pink-100">
+                        <Instagram className="w-5 h-5" />
+                      </a>
                       <a href="https://www.linkedin.com/in/nikhil-mishra047/" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all border border-blue-100">
                         <Linkedin className="w-5 h-5" />
                       </a>
@@ -205,26 +208,26 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                   </div>
                 </form>
               ) : (
-                <div className="flex flex-col items-center text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center border border-green-100">
-                    <CheckCircle2 className="w-10 h-10 text-green-500" />
+                <div className="flex flex-col items-center text-center space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-sm mx-auto">
+                  <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center border border-green-100">
+                    <CheckCircle2 className="w-6 h-6 text-green-500" />
                   </div>
                   
                   <div className="space-y-4">
                     <div className="space-y-2">
-                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Hey {fullName}! 👋</h3>
-                        <p className="text-gray-500 font-medium leading-relaxed">
+                        <h3 className="text-lg md:text-xl font-bold text-gray-900 tracking-tight">Hey {fullName}! 👋</h3>
+                        <p className="text-gray-500 text-[13px] font-medium leading-relaxed">
                           Thank you for joining our journey.<br />
                           We're excited to have you onboard!
                         </p>
                     </div>
 
-                    <div className="p-5 rounded-2xl bg-brand-bg border border-brand-orange/10 text-left relative overflow-hidden shadow-sm">
+                    <div className="p-3.5 rounded-2xl bg-brand-bg border border-brand-orange/10 text-center relative overflow-hidden shadow-sm">
                       <div className="absolute top-0 right-0 p-2 opacity-5">
-                         <Star className="w-10 h-10 text-brand-orange" />
+                         <Star className="w-7 h-7 text-brand-orange" />
                       </div>
-                      <p className="text-[11px] font-bold text-brand-orange uppercase tracking-[0.2em] mb-3">A message from Founder</p>
-                      <p className="text-[13.5px] text-gray-700 leading-relaxed font-heading">
+                      <p className="text-[10px] font-bold text-brand-orange uppercase tracking-[0.2em] mb-2">A message from Founder</p>
+                      <p className="text-[12px] text-gray-700 leading-relaxed font-heading">
                         "Welcome to KineticOS! I built this system to help operators like you scale without the chaos. You're now on the list to get early access and exclusive pre-launch bonuses within the next 24-48 hours. I'll reach out personally when your spot opens up."
                       </p>
                     </div>
@@ -237,15 +240,15 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                     </div>
                   </div>
 
-                  <div className="w-full p-4 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-between gap-4">
-                    <code className="text-xs font-mono text-gray-600 overflow-hidden text-ellipsis whitespace-nowrap">
+                  <div className="w-full p-3 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-between gap-4">
+                    <code className="text-[10px] font-mono text-gray-600 overflow-hidden text-ellipsis whitespace-nowrap">
                       {window.location.origin}?ref={waitlistData?.referralCode}
                     </code>
                     <button 
                       onClick={copyReferral}
-                      className="shrink-0 p-2.5 rounded-xl bg-white border border-gray-200 text-[#ff751f] hover:bg-[#ff751f] hover:text-white transition-all shadow-sm"
+                      className="shrink-0 p-2 rounded-xl bg-white border border-gray-200 text-[#ff751f] hover:bg-[#ff751f] hover:text-white transition-all shadow-sm"
                     >
-                      {copied ? <CheckCircle2 className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+                      {copied ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
                   </div>
 
@@ -254,18 +257,33 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                       variant="outline"
                       fullWidth
                       onClick={() => window.open(`https://twitter.com/intent/tweet?text=I%20just%20joined%20the%20waitlist%20for%20KineticOS!%20Check%20it%20out:%20${window.location.origin}?ref=${waitlistData?.referralCode}`, '_blank')}
-                      className="py-3 border-gray-200 hover:bg-black hover:text-white transition-all"
+                      className="py-2.5 text-xs border-gray-200 hover:bg-black hover:text-white transition-all"
                     >
-                      <Twitter className="w-4 h-4 mr-2" /> Share
+                      <Twitter className="w-3.5 h-3.5 mr-2" /> Share
                     </Button>
                     <Button
                       variant="primary"
                       fullWidth
                       onClick={onClose}
-                      className="py-3"
+                      className="py-2.5 text-xs"
                     >
                       Done
                     </Button>
+                  </div>
+                  
+                  <div className="pt-2 border-t border-gray-50 w-full flex flex-col items-center gap-3">
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Follow the Journey</p>
+                    <div className="flex gap-3">
+                      <a href="https://www.instagram.com/unik.build/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-pink-50 text-pink-600 hover:bg-pink-600 hover:text-white transition-all border border-pink-100">
+                        <Instagram className="w-4 h-4" />
+                      </a>
+                      <a href="https://www.linkedin.com/in/nikhil-mishra047/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all border border-blue-100">
+                        <Linkedin className="w-4 h-4" />
+                      </a>
+                      <a href="https://x.com/unik_47" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-gray-50 text-gray-900 hover:bg-black hover:text-white transition-all border border-gray-200">
+                        <Twitter className="w-4 h-4" />
+                      </a>
+                    </div>
                   </div>
                   
                   <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
