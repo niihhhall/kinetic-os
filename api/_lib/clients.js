@@ -39,19 +39,8 @@ export const brandedEmailTemplate = (title, content) => `
 <div style="background-color: #f9fafb; padding: 40px 20px;">
   <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 24px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);">
     <!-- Header -->
-    <div style="background-color: #ff751f; padding: 32px 40px; text-align: left;">
-      <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tr>
-          <td width="32" style="vertical-align: middle;">
-            <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M50 0V100M6.69873 25L93.3013 75M93.3013 25L6.69873 75" stroke="white" stroke-width="20" stroke-linecap="round"/>
-            </svg>
-          </td>
-          <td style="padding-left: 12px; vertical-align: middle;">
-            <h2 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.025em; line-height: 1;">KineticOS</h2>
-          </td>
-        </tr>
-      </table>
+    <div style="background-color: #ffffff; padding: 32px 40px; text-align: left; border-bottom: 1px solid #f3f4f6;">
+      <h2 style="margin: 0; color: #ff751f; font-size: 24px; font-weight: 700; letter-spacing: -0.025em; line-height: 1;">KineticOS</h2>
     </div>
     
     <!-- Content -->
@@ -59,11 +48,6 @@ export const brandedEmailTemplate = (title, content) => `
       <h1 style="margin: 0 0 24px 0; color: #111827; font-size: 20px; font-weight: 700; line-height: 1.2;">${title}</h1>
       <div style="line-height: 1.6; color: #4b5563; font-size: 16px;">
         ${content}
-      </div>
-      <div style="margin-top: 32px; opacity: 0.2; text-align: center;">
-        <svg width="20" height="20" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
-          <path d="M50 0V100M6.69873 25L93.3013 75M93.3013 25L6.69873 75" stroke="#4b5563" stroke-width="20" stroke-linecap="round"/>
-        </svg>
       </div>
     </div>
     

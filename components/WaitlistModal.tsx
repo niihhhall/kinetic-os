@@ -227,6 +227,14 @@ export const WaitlistModal: React.FC<WaitlistModalProps> = ({ isOpen, onClose, t
                     </p>
                   </div>
                   
+                  {/* Email Tip */}
+                  <div className="w-full flex items-center justify-center gap-2 py-1.5 px-3 rounded-xl bg-orange-50/50 border border-orange-100/50 animate-pulse">
+                    <Mail className="w-3 h-3 text-brand-orange" />
+                    <p className="text-[9px] font-bold text-gray-500 uppercase tracking-tight">
+                      Check your <span className="text-brand-orange">Promotions</span> or <span className="text-brand-orange">Spam</span> folder
+                    </p>
+                  </div>
+                  
                   <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gray-50 border border-gray-100 text-[9px] font-bold text-gray-400 uppercase tracking-widest">
                     <Clock className="w-3 h-3" />
                     Next Update: Coming Soon

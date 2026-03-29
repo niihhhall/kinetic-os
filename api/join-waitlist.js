@@ -3,6 +3,7 @@ import { supabase, resend, brandedEmailTemplate } from './_lib/clients.js';
 import { nanoid } from 'nanoid';
 
 export default async function handler(req, res) {
+  // Triggering fresh load for latest branding
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
