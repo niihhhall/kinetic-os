@@ -6,14 +6,13 @@ interface CountdownTimerProps {
 }
 
 export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false }) => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 72, minutes: 0, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const requestRef = useRef<number>(0);
   const endTimeRef = useRef<number>(0);
 
   useEffect(() => {
-    // Logic to reset every 24 hours: Count down to the next midnight
-    const now = new Date();
-    const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0).getTime();
+    // FIXED DATE: April 8, 2026 (Month is 0-indexed, so 3 = April)
+    const targetDate = new Date(2026, 3, 8, 0, 0, 0).getTime();
     endTimeRef.current = targetDate;
 
     const animate = () => {
@@ -21,17 +20,18 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
       const difference = endTimeRef.current - now;
 
       if (difference <= 0) {
-        setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
 
-      const hours = Math.floor((difference / (1000 * 60 * 60)));
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
       setTimeLeft(prev => {
-        if (prev.seconds !== seconds) {
-          return { hours, minutes, seconds };
+        if (prev.seconds !== seconds || prev.minutes !== minutes || prev.hours !== hours || prev.days !== days) {
+          return { days, hours, minutes, seconds };
         }
         return prev;
       });
@@ -49,19 +49,23 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
         role="timer" 
         aria-live="polite" 
         aria-atomic="true"
-        aria-label={`Time remaining: ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds`}
-        className="flex items-center gap-1.5 md:gap-2 font-mono text-brand-text text-2xl md:text-3xl font-bold tracking-tight"
+        aria-label={`Time remaining: ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, ${timeLeft.seconds} seconds`}
+        className="flex items-center gap-1 md:gap-2 font-mono text-brand-text text-2xl md:text-3xl font-bold tracking-tight"
         style={{ fontVariantNumeric: 'slashed-zero' }}
       >
-        <div className="bg-white px-2.5 py-3 md:px-4 md:py-4 rounded-[1.25rem] border border-black/[0.03] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] min-w-[3.5rem] md:min-w-[4.8rem] text-center text-[#292929] flex items-center justify-center leading-none" aria-hidden="true">
+        <div className="bg-white px-2 py-3 md:px-4 md:py-4 rounded-[1.25rem] border border-black/[0.03] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] min-w-[3rem] md:min-w-[4.8rem] text-center text-[#292929] flex items-center justify-center leading-none" aria-hidden="true">
+          {String(timeLeft.days).padStart(2, '0')}
+        </div>
+        <span className="text-[#e5e7eb] text-sm mb-1 font-sans opacity-60" aria-hidden="true"> : </span>
+        <div className="bg-white px-2 py-3 md:px-4 md:py-4 rounded-[1.25rem] border border-black/[0.03] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] min-w-[3rem] md:min-w-[4.8rem] text-center text-[#292929] flex items-center justify-center leading-none" aria-hidden="true">
           {String(timeLeft.hours).padStart(2, '0')}
         </div>
         <span className="text-[#e5e7eb] text-sm mb-1 font-sans opacity-60" aria-hidden="true"> : </span>
-        <div className="bg-white px-2.5 py-3 md:px-4 md:py-4 rounded-[1.25rem] border border-black/[0.03] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] min-w-[3.5rem] md:min-w-[4.8rem] text-center text-[#292929] flex items-center justify-center leading-none" aria-hidden="true">
+        <div className="bg-white px-2 py-3 md:px-4 md:py-4 rounded-[1.25rem] border border-black/[0.03] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] min-w-[3rem] md:min-w-[4.8rem] text-center text-[#292929] flex items-center justify-center leading-none" aria-hidden="true">
           {String(timeLeft.minutes).padStart(2, '0')}
         </div>
         <span className="text-[#e5e7eb] text-sm mb-1 font-sans opacity-60" aria-hidden="true"> : </span>
-        <div className="bg-white px-2.5 py-3 md:px-4 md:py-4 rounded-[1.25rem] border border-black/[0.03] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] min-w-[3.5rem] md:min-w-[4.8rem] text-center text-[#ff751f] flex items-center justify-center leading-none" aria-hidden="true">
+        <div className="bg-white px-2 py-3 md:px-4 md:py-4 rounded-[1.25rem] border border-black/[0.03] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.06)] min-w-[3rem] md:min-w-[4.8rem] text-center text-[#ff751f] flex items-center justify-center leading-none" aria-hidden="true">
           {String(timeLeft.seconds).padStart(2, '0')}
         </div>
       </div>
@@ -73,9 +77,16 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ compact = false 
       role="timer" 
       aria-live="polite" 
       aria-atomic="true"
-      aria-label={`Offer expires in ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, and ${timeLeft.seconds} seconds`}
+      aria-label={`Offer expires in ${timeLeft.days} days, ${timeLeft.hours} hours, ${timeLeft.minutes} minutes, and ${timeLeft.seconds} seconds`}
       className="flex items-center justify-center gap-4 text-brand-text font-mono"
     >
+      <div className="flex flex-col items-center">
+        <span className="text-2xl md:text-4xl font-bold bg-white px-4 py-3 rounded-xl border border-gray-200 shadow-sm backdrop-blur-sm">
+          {String(timeLeft.days).padStart(2, '0')}
+        </span>
+        <span className="text-[10px] text-gray-400 mt-2 font-bold uppercase tracking-[0.2em]">Days</span>
+      </div>
+      <span className="text-2xl font-bold -mt-8 text-gray-300" aria-hidden="true">:</span>
       <div className="flex flex-col items-center">
         <span className="text-2xl md:text-4xl font-bold bg-white px-4 py-3 rounded-xl border border-gray-200 shadow-sm backdrop-blur-sm">
           {String(timeLeft.hours).padStart(2, '0')}
