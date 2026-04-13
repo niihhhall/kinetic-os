@@ -104,6 +104,18 @@ ${context}
         return res.status(200).json({ content: response });
     } catch (err) {
         console.error('Chat API Error:', err);
-        return res.status(500).json({ error: 'Failed to process chat' });
+        
+        let errorCode = 'INTERNAL_ERROR';
+        if (err.message && err.message.includes('function match_documents(query_embedding, match_threshold, match_count) does not exist')) {
+            errorCode = 'DB_FUNC_MISSING';
+        } else if (err.message && err.message.includes('relation "documents" does not exist')) {
+            errorCode = 'DB_TABLE_MISSING';
+        }
+
+        return res.status(500).json({ 
+            error: 'Failed to process chat',
+            code: errorCode,
+            details: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
     }
 }
